@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Aşk Sayacı & Kilit Ekranı Widget | Bizim Aşk Hikayemiz</title>
+  <meta name="description" content="İlişki başlama tarihinden itibaren canlı sayaç, fotoğraflı anı takvimi, gelecek planları, özel notlar ve kilit ekranı sabit bildirim uygulaması.">
+  <meta name="theme-color" content="#ff2a6d">
+  
+  <!-- Mobile & iOS Web App Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Aşk Sayacı">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Manifest & Apple Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23ff2a6d'/><path d='M256 448l-30.8-28.08C115.2 320 48 259.2 48 184 48 122.4 96.4 74 158 74c34.8 0 68.2 16.2 90 41.8C270.8 90.2 304.2 74 339 74c61.6 0 110 48.4 110 110 0 75.2-67.2 136-177.2 236.08L256 448z' fill='white'/></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Hearts Background Canvas/Particles -->
+  <div id="heartParticles" class="heart-particles"></div>
+
+  <!-- Mobile Install PWA Banner Prompt -->
+  <div id="pwaInstallBanner" class="pwa-install-banner" style="display:none">
+    <div class="pwa-banner-content">
+      <span class="pwa-icon">📱</span>
+      <div>
+        <strong>Telefona Uygulama Olarak Yükle</strong>
+        <p>Kilit ekranı widget'ı ve daha hızlı erişim için ana ekranınıza ekleyin.</p>
+      </div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button id="btnPwaInstall" class="btn-primary">Yükle 📲</button>
+      <button id="closePwaBanner" class="btn-icon" style="width:30px;height:30px;">&times;</button>
+    </div>
+  </div>
+
+  <!-- App Header / Navigation Bar -->
+  <header class="app-header">
+    <div class="logo-container">
+      <svg class="header-heart-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      <h1 class="app-title">Bizim Aşk Hikayemiz</h1>
+    </div>
+    <div class="header-actions">
+      <!-- Notifications Bell Button with Badge -->
+      <button type="button" id="btnNotifications" onclick="openNotificationsModal()" class="btn-icon btn-notification-wrap" title="Bildirimler">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span id="notifBadge" class="notif-badge" style="display:none">0</span>
+      </button>
+
+      <!-- Settings Gear Button -->
+      <button type="button" id="btnSettings" onclick="openSettingsModal()" class="btn-icon" title="Ayarlar & Bildirimler">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- MAIN PAGE 1: ANA SAYFA (CANLI SAYAÇ & TAKVİM/ANILAR) -->
+    <div id="mainHomeView" class="main-page-view active">
+
+    <!-- Couples Profile Header Card (Tarihi Düzenlemek İçin Dokunun) -->
+    <section class="couples-card glass-card" onclick="openDateEditModal()" title="İlişki Tarihini & İsimleri Düzenlemek İçin Dokunun" style="cursor: pointer; position: relative; margin-bottom: 20px;">
+      <div style="position: absolute; top: 12px; right: 14px; background: var(--glass-bg); color: var(--primary-pink); font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 4px;">
+        ✏️ <span>Tarihi Düzenle</span>
+      </div>
+
+      <div class="couple-avatar-wrap">
+        <div class="avatar-box" id="avatar1Box" onclick="event.stopPropagation(); openCropAvatarModal(appState.avatar1, 'partner1')" title="Partner 1 Fotoğrafını Ayarla">
+          <img id="avatar1Img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23ff4b72'/><text x='50%' y='55%' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'>❤️</text></svg>" alt="Partner 1">
+        </div>
+        <div class="heart-pulse-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+        <div class="avatar-box" id="avatar2Box" onclick="event.stopPropagation(); openCropAvatarModal(appState.avatar2, 'partner2')" title="Partner 2 Fotoğrafını Ayarla">
+          <img id="avatar2Img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23ff4b72'/><text x='50%' y='55%' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'>💖</text></svg>" alt="Partner 2">
+        </div>
+      </div>
+
+      <div class="couples-names-wrap">
+        <h2 id="couplesNames" class="couples-names">Siz & Sevdiğiniz</h2>
+        <p id="startDateDisplay" class="start-date-text">Birliktelik Başlangıcı: --.--.---- --:--</p>
+      </div>
+    </section>
+
+    <!-- Main Heart Counter Grid (Kalpler İçinde Canlı Sayaç) -->
+    <section class="heart-counter-section" style="margin-top: 10px; margin-bottom: 20px;">
+      <button type="button" id="btnLoveQuoteTrigger" onclick="openLoveQuoteModal()" class="section-badge interactive-love-badge" style="display: flex; align-items: center; justify-content: center; width: 90%; max-width: 340px; margin: 0 auto 16px auto; border: 1.5px solid var(--primary-pink); padding: 10px 18px; cursor: pointer; background: linear-gradient(135deg, var(--glass-glow), rgba(255,183,3,0.15)); color: white; border-radius: 50px; text-align: center; box-shadow: 0 4px 18px var(--glass-glow);">
+        <svg viewBox="0 0 24 24" fill="var(--primary-pink)" width="18" height="18" style="margin-right: 8px; flex-shrink: 0; filter: drop-shadow(0 0 6px var(--primary-pink));"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span style="font-weight: bold; font-size: 0.95rem; letter-spacing: 0.5px;">Birlikte Geçen Her An</span>
+      </button>
+
+      <div class="hearts-grid">
+        <!-- YIL Kalbi -->
+        <div class="heart-card-box">
+          <div class="heart-svg-wrapper">
+            <svg class="heart-svg" viewBox="0 0 100 90">
+              <path class="heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/>
+            </svg>
+            <div class="heart-content">
+              <span id="counterYears" class="counter-val">0</span>
+              <span class="counter-unit">YIL</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AY Kalbi -->
+        <div class="heart-card-box">
+          <div class="heart-svg-wrapper">
+            <svg class="heart-svg" viewBox="0 0 100 90">
+              <path class="heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/>
+            </svg>
+            <div class="heart-content">
+              <span id="counterMonths" class="counter-val">0</span>
+              <span class="counter-unit">AY</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- GÜN Kalbi -->
+        <div class="heart-card-box">
+          <div class="heart-svg-wrapper">
+            <svg class="heart-svg" viewBox="0 0 100 90">
+              <path class="heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/>
+            </svg>
+            <div class="heart-content">
+              <span id="counterDays" class="counter-val">0</span>
+              <span class="counter-unit">GÜN</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SAAT Kalbi -->
+        <div class="heart-card-box">
+          <div class="heart-svg-wrapper">
+            <svg class="heart-svg" viewBox="0 0 100 90">
+              <path class="heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/>
+            </svg>
+            <div class="heart-content">
+              <span id="counterHours" class="counter-val">00</span>
+              <span class="counter-unit">SAAT</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DAKİKA Kalbi -->
+        <div class="heart-card-box">
+          <div class="heart-svg-wrapper">
+            <svg class="heart-svg" viewBox="0 0 100 90">
+              <path class="heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/>
+            </svg>
+            <div class="heart-content">
+              <span id="counterMinutes" class="counter-val">00</span>
+              <span class="counter-unit">DAKİKA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SANİYE Kalbi -->
+        <div class="heart-card-box">
+          <div class="heart-svg-wrapper">
+            <svg class="heart-svg" viewBox="0 0 100 90">
+              <path class="heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/>
+            </svg>
+            <div class="heart-content">
+              <span id="counterSeconds" class="counter-val">00</span>
+              <span class="counter-unit">SANİYE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="total-days-pill">
+        <span>Toplandığında Toplam: <strong id="totalDaysVal">0</strong> Gün Sevgi Dolu An ❤️</span>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs Header (4 Sub-Tabs: Anı Takvimi, Anı Galerisi, Gelecek Planları, Notlarım & Hatırlatıcılar) -->
+    <nav class="app-tabs" style="margin-top: 16px; margin-bottom: 16px;">
+      <button type="button" id="tabCalendar" onclick="switchTab('calendar')" class="tab-btn active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span>Anı Takvimi</span>
+      </button>
+
+      <button type="button" id="tabTimeline" onclick="switchTab('timeline')" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        <span>Anı Galerisi</span>
+      </button>
+
+      <button type="button" id="tabFuture" onclick="switchTab('future')" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>Gelecek Planlar</span>
+      </button>
+
+      <button type="button" id="tabNotes" onclick="switchTab('notes')" class="tab-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <span>Notlarım & Alarm 📝</span>
+      </button>
+    </nav>
+
+    <!-- VIEW SECTION 1: CALENDAR VIEW SECTION -->
+    <section id="calendarSection" class="view-section active">
+      <div class="calendar-card glass-card">
+        <!-- Calendar Header -->
+        <div class="calendar-header">
+          <button id="prevMonthBtn" onclick="changeCalendarMonth(-1)" class="cal-nav-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="calendar-month-year">
+            <h3 id="calendarMonthYearText">Temmuz 2026</h3>
+          </div>
+          <button id="nextMonthBtn" onclick="changeCalendarMonth(1)" class="cal-nav-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+        <!-- Days of Week Header -->
+        <div class="calendar-weekdays">
+          <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
+        </div>
+
+        <!-- Calendar Days Grid -->
+        <div id="calendarDaysGrid" class="calendar-grid">
+          <!-- Dynamically populated -->
+        </div>
+
+        <div class="calendar-legend">
+          <span class="legend-item"><span class="dot memory-dot"></span> Anı / Not Eklenmiş Gün</span>
+          <span class="legend-item"><span class="dot today-dot"></span> Bugün</span>
+          <span class="legend-item"><span class="dot anniversary-dot"></span> Başlangıç Tarihi</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW SECTION 2: TIMELINE MEMORIES VIEW SECTION -->
+    <section id="timelineSection" class="view-section">
+      <div class="timeline-header-actions glass-card" style="padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <h3 style="margin: 0; font-size: 1.1rem; color: #ffffff;">⭐ Anı Galerisi & Zaman Çizelgesi</h3>
+          <p style="margin: 2px 0 0 0; font-size: 0.8rem; color: var(--text-sub);">Tarihlere eklenen özel anılarınız ve hikayeleriniz.</p>
+        </div>
+        <button id="btnAddNewMemoryDirect" onclick="openAddNewMemoryDirect()" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem; border-radius: 20px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Yeni Anı Ekle
+        </button>
+      </div>
+
+      <div id="timelineContainer" class="timeline-container">
+        <!-- Dynamically populated memories timeline -->
+      </div>
+    </section>
+
+    <!-- VIEW SECTION 3: FUTURE PLANS CALENDAR & BUCKET LIST -->
+    <section id="futureSection" class="view-section">
+      <div class="future-plans-header glass-card">
+        <div class="future-header-text">
+          <h3>Birlikte Gelecek Planlarımız ✨</h3>
+          <p>Hayallerinizi, yaklaşan tatillerinizi ve özel etkinliklerinizi takvime ekleyin.</p>
+        </div>
+        <button id="btnAddNewFuturePlan" onclick="openAddNewFuturePlanDirect()" class="btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Yeni Plan Ekle
+        </button>
+      </div>
+
+      <!-- Future Plans Calendar Card -->
+      <div class="calendar-card glass-card" style="margin-top: 16px;">
+        <div class="calendar-header">
+          <button id="prevFutureMonthBtn" onclick="changeFutureCalendarMonth(-1)" class="cal-nav-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="calendar-month-year">
+            <h3 id="futureCalendarMonthYearText">Temmuz 2026</h3>
+          </div>
+          <button id="nextFutureMonthBtn" onclick="changeFutureCalendarMonth(1)" class="cal-nav-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+        <div class="calendar-weekdays">
+          <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
+        </div>
+
+        <div id="futureCalendarDaysGrid" class="calendar-grid">
+          <!-- Dynamically populated future plans calendar -->
+        </div>
+
+        <div class="calendar-legend">
+          <span class="legend-item"><span class="dot plan-dot"></span> Gelecek Plan Günü</span>
+          <span class="legend-item"><span class="dot completed-dot"></span> Tamamlanan Plan</span>
+        </div>
+      </div>
+
+      <!-- Upcoming Future Plans List & Countdowns -->
+      <div class="future-plans-list-container" style="margin-top: 20px;">
+        <div class="section-title-wrap">
+          <h4>Yaklaşan Planlar ve Geri Sayım ⏳</h4>
+        </div>
+        <div id="futurePlansList" class="future-plans-grid">
+          <!-- Dynamically populated future plan cards -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW SECTION 4: NOTLARIM & HATIRLATICALAR -->
+    <section id="notesSection" class="view-section">
+      <div class="future-plans-header glass-card" style="background: linear-gradient(135deg, rgba(255, 42, 109, 0.15) 0%, rgba(255, 183, 3, 0.1) 100%);">
+        <div class="future-header-text">
+          <h3>Özel Notlarım & Hatırlatıcılar 📝</h3>
+          <p>Sevgilinize veya kendinize özel notlar yazın, belirlediğiniz tarih/saatte bildirim hatırlatıcısı kurun.</p>
+        </div>
+        <button id="btnAddNewNote" onclick="openNoteModalForNew()" class="btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Yeni Not & Alarm Ekle
+        </button>
+      </div>
+
+      <div class="notes-filter-bar" style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn-secondary note-filter-btn active" data-filter="all">Tüm Notlar</button>
+        <button class="btn-secondary note-filter-btn" data-filter="reminder">⏰ Hatırlatıcılar</button>
+        <button class="btn-secondary note-filter-btn" data-filter="love">💖 Aşk Notları</button>
+      </div>
+
+      <div id="userNotesGrid" class="future-plans-grid" style="margin-top: 16px;">
+        <!-- Dynamically populated notes & reminders -->
+      </div>
+    </section>
+
+    </div><!-- END MAIN PAGE 1: mainHomeView -->
+
+    <!-- MAIN PAGE 2: FOTO KÜTÜPHANESİ (BAĞIMSIZ EKRAN) -->
+    <div id="mainGalleryView" class="main-page-view" style="display: none;">
+      <section id="gallerySection" class="view-section active">
+        <!-- Main Albums View (Klasörler Alt Alta Listeli) -->
+        <div id="photoLibraryMainView">
+          <div class="gallery-header-card glass-card" style="padding: 16px 20px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <h3 style="font-size: 1.15rem; color: #ffffff; display: flex; align-items: center; gap: 6px; margin: 0;">
+                  <span>📸 Fotoğraf Kütüphanesi & Klasörler</span>
+                </h3>
+                <p style="font-size: 0.8rem; color: var(--text-sub); margin-top: 4px; margin-bottom: 0;">
+                  Özel albümlerinizi alt alta inceleyin, klasör oluşturun ve not & emoji bırakın.
+                </p>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button type="button" onclick="openNewAlbumModal()" class="btn-secondary" style="padding: 8px 14px; font-size: 0.85rem; border-radius: 25px; display: inline-flex; align-items: center; gap: 6px;">
+                  📁 Yeni Klasör Oluştur
+                </button>
+                <button type="button" onclick="triggerDirectGalleryUpload()" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem; border-radius: 25px; display: inline-flex; align-items: center; gap: 6px;">
+                  📸 Fotoğraf Yükle
+                </button>
+                <input type="file" id="directGalleryFileInput" accept="image/*" multiple style="display:none" onchange="handleDirectGalleryUpload(event)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Library Search Bar -->
+          <div class="glass-card" style="padding: 8px 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; border-radius: 20px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="color: var(--text-sub); flex-shrink: 0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="librarySearchInput" oninput="handleLibrarySearch()" placeholder="Klasör adı veya fotoğraf notu ile ara..." style="width: 100%; background: transparent; border: none; outline: none; color: white; font-family: inherit; font-size: 0.85rem;">
+            <button type="button" id="btnClearLibrarySearch" onclick="clearLibrarySearch()" style="display:none; background: transparent; border: none; color: var(--text-sub); font-size: 1.1rem; cursor: pointer; padding: 0 4px;" title="Temizle">&times;</button>
+          </div>
+
+          <!-- Vertical Albums List (Alt Alta Listelenmiş Klasörler) -->
+          <div id="verticalAlbumsContainer" class="vertical-albums-list" style="display: flex; flex-direction: column; gap: 12px;">
+            <!-- Dynamically populated vertical album cards -->
+          </div>
+
+          <!-- Quick Photos Feed Grid (Son Yüklenen Fotoğraflar Hızlı Görünüm) -->
+          <div style="margin-top: 24px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <h4 style="margin: 0; font-size: 1rem; color: #ffffff; display: flex; align-items: center; gap: 6px;">
+                <span>✨ Son Yüklenen Anı Fotoğrafları</span>
+              </h4>
+              <span id="quickGalleryCount" style="font-size: 0.78rem; color: var(--text-sub);">0 Fotoğraf</span>
+            </div>
+            <div id="quickMainGalleryGrid" class="gallery-photo-grid">
+              <!-- Dynamically populated quick photos grid -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Nested Album Detail Sub-Screen (İç Ekran) -->
+        <div id="albumDetailSubScreen" style="display: none;">
+          <div class="glass-card" style="padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+            <button type="button" onclick="closeAlbumDetailSubScreen()" class="btn-secondary" style="padding: 6px 14px; font-size: 0.85rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px;">
+              ‹ Klasörlere Dön
+            </button>
+            <div style="text-align: center;">
+              <h3 id="detailAlbumTitle" style="margin: 0; font-size: 1.1rem; color: var(--primary-pink);">📁 Klasör Adı</h3>
+              <span id="detailAlbumCount" style="font-size: 0.75rem; color: var(--text-sub);">0 Fotoğraf</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; position: relative;">
+              <button type="button" onclick="triggerDirectGalleryUpload()" class="btn-primary" style="padding: 6px 14px; font-size: 0.85rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px;">
+                ➕ Fotoğraf Yükle
+              </button>
+              <!-- 3-Dots Action Button for Folder Options -->
+              <button type="button" id="btnAlbumOptionsMenu" onclick="toggleAlbumOptionsMenu(event)" class="btn-icon" style="width: 36px; height: 36px; font-weight: bold; font-size: 1.2rem; display: none;" title="Klasör Seçenekleri">
+                ⋮
+              </button>
+              <!-- 3-Dots Dropdown Menu -->
+              <div id="albumOptionsMenuDropdown" class="glass-card" style="display: none; position: absolute; top: 44px; right: 0; padding: 6px; z-index: 50; min-width: 150px; box-shadow: 0 8px 24px rgba(0,0,0,0.6);">
+                <button type="button" onclick="handleCurrentAlbumDelete()" style="width: 100%; background: rgba(255,0,85,0.2); border: 1px solid rgba(255,0,85,0.4); color: #ff8585; padding: 8px 12px; border-radius: 12px; font-size: 0.82rem; font-weight: bold; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 6px;">
+                  🗑️ Klasörü Sil
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detail Photo Grid Container -->
+          <div id="albumDetailGridContainer" class="gallery-photo-grid">
+            <!-- Dynamically populated photos inside this specific album -->
+          </div>
+        </div>
+      </section>
+    </div><!-- END MAIN PAGE 2: mainGalleryView -->
+
+    <!-- MAIN PAGE 3: KİŞİSEL PROFİL VE KATEGORİLİ PAYLAŞIMLAR (BAĞIMSIZ EKRAN) -->
+    <div id="mainProfileView" class="main-page-view" style="display: none;">
+      <section id="profileSection" class="view-section active">
+        <!-- Modern Left-Aligned Single Person Profile Header Card -->
+        <div class="glass-card profile-hero-card" id="profileMainCard">
+          <!-- Cover Photo Banner with Soft Vignette Gradient -->
+          <div class="profile-cover-banner" id="userProfCoverBanner">
+            <div class="profile-cover-vignette"></div>
+
+            <!-- Action Buttons Container (Top Right Corner) -->
+            <div style="position: absolute; top: 12px; right: 12px; display: flex; align-items: center; gap: 8px; z-index: 6;">
+              <button type="button" onclick="openCropBannerModal(userProfile.coverPhoto)" class="btn-cover-change" title="Kapak Fotoğrafı Değiştir">
+                📷 <span>Kapak</span>
+              </button>
+              <button type="button" onclick="openProfileEditModal()" class="btn-cover-change btn-cover-edit" title="Profili Düzenle">
+                ✏️ <span>Düzenle</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Profile Content Body (Left Aligned Layout) -->
+          <div class="profile-body-content" style="text-align: left; padding: 0 20px 20px 20px;">
+            <!-- Top Header Row: Far-Left Avatar + Name Next to It -->
+            <div style="display: flex; align-items: flex-end; gap: 14px; margin-top: -45px; margin-bottom: 12px;">
+              <!-- Far Left Profile Avatar -->
+              <div class="profile-avatar-wrap" id="profAvatarWrapper" style="margin: 0; flex-shrink: 0;">
+                <div class="avatar-box profile-avatar-box" onclick="openCropAvatarModal(userProfile.avatar, 'profile')">
+                  <img id="userProfAvatarImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23ff4b72'/><text x='50%' y='55%' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'>👤</text></svg>" alt="Profil Fotoğrafı">
+                </div>
+                <span class="avatar-camera-badge" onclick="openCropAvatarModal(userProfile.avatar, 'profile')">📷</span>
+              </div>
+
+              <!-- User Name on the Right of Avatar -->
+              <div style="padding-bottom: 4px; min-width: 0; flex: 1;">
+                <h2 id="userProfName" class="user-hero-name" style="margin: 0; font-size: 1.6rem; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Kullanıcı Adı</h2>
+              </div>
+            </div>
+
+            <!-- Below Photo and Name: Bio -->
+            <p id="userProfBio" class="user-hero-bio" style="text-align: left; margin-left: 0; margin-right: 0; margin-bottom: 14px;">"Kişisel biyografinizi eklemek için düzenleyin..."</p>
+
+            <!-- Personal Info Chips (Doğum Günü, Burç) -->
+            <div class="profile-chips-wrap" style="justify-content: flex-start;">
+              <div id="userProfBdayChip" class="profile-info-chip chip-bday">
+                🎂 <span id="userProfBdayText">Doğum Tarihi: Belirtilmedi</span>
+              </div>
+              <div id="userProfZodiacChip" class="profile-info-chip chip-zodiac">
+                ✨ <span id="userProfZodiacText">Burç: Belirtilmedi</span>
+              </div>
+            </div>
+
+            <!-- Dynamic Individual Hobby Chips List -->
+            <div id="userProfHobbiesList" class="profile-hobbies-wrap" style="justify-content: flex-start;">
+              <!-- Rendered as individual hobby badges -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Categorized Post Creator Box -->
+        <div class="glass-card" style="padding: 18px; margin-bottom: 20px;">
+          <h3 style="font-size: 1.05rem; color: var(--primary-pink); margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+            <span>✍️ Yeni Paylaşım</span>
+          </h3>
+
+          <form id="lovePostForm" onsubmit="handleLovePostSubmit(event)">
+            <!-- Category Picker Selector -->
+            <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-size: 0.8rem; color: var(--text-sub); font-weight: bold;">Paylaşım Kategorisi:</span>
+              <select id="inputPostCategory" style="padding: 6px 14px; border-radius: 14px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; font-family: inherit; font-size: 0.85rem; cursor: pointer;">
+                <option value="siir" style="background:#1a0b2e;">📜 Şiir</option>
+                <option value="not" selected style="background:#1a0b2e;">📝 Özel Not</option>
+                <option value="tarif" style="background:#1a0b2e;">🍳 Yemek Tarifi</option>
+                <option value="dusunce" style="background:#1a0b2e;">💭 Düşünce / Söz</option>
+                <option value="hobi" style="background:#1a0b2e;">🎨 Hobi / Aktivite</option>
+              </select>
+            </div>
+
+            <!-- Optional Post Title Input -->
+            <input type="text" id="inputPostTitle" placeholder="Gönderi Başlığı (Örn: 'Sana Yazdığım Şiir', 'Kek Tarifi')..." style="width: 100%; padding: 10px 14px; border-radius: 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: white; font-family: inherit; font-size: 0.88rem; margin-bottom: 10px; outline: none;">
+
+            <!-- Main Post Text Input -->
+            <textarea id="inputPostText" rows="3" placeholder="Şiir, yemek tarifi, romantik bir not veya düşüncelerinizi buraya yazın..." style="width: 100%; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: white; font-family: inherit; font-size: 0.88rem; resize: none; outline: none;" required></textarea>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px; flex-wrap: wrap; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <label for="inputPostPhoto" class="btn-secondary" style="padding: 6px 14px; font-size: 0.8rem; border-radius: 20px; cursor: pointer;">
+                  📷 Görsel Ekle
+                </label>
+                <input type="file" id="inputPostPhoto" accept="image/*" style="display:none" onchange="previewPostPhoto(event)">
+                <span id="postPhotoPreviewName" style="font-size: 0.75rem; color: #ffb703;"></span>
+              </div>
+
+              <button type="submit" class="btn-primary" style="padding: 8px 20px; font-size: 0.85rem; border-radius: 20px;">
+                Paylaş ✨
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Post Category Filter Bar -->
+        <div class="glass-card" style="padding: 12px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; overflow-x: auto; scrollbar-width: none;">
+          <span style="font-size: 0.78rem; color: var(--text-sub); flex-shrink: 0; font-weight: bold;">Kategori Filtresi:</span>
+          <button type="button" onclick="setPostFeedFilter('all')" class="post-filter-chip active" id="pfilter_all">✨ Tümü</button>
+          <button type="button" onclick="setPostFeedFilter('siir')" class="post-filter-chip" id="pfilter_siir">📜 Şiirler</button>
+          <button type="button" onclick="setPostFeedFilter('not')" class="post-filter-chip" id="pfilter_not">📝 Notlar</button>
+          <button type="button" onclick="setPostFeedFilter('tarif')" class="post-filter-chip" id="pfilter_tarif">🍳 Tarifler</button>
+          <button type="button" onclick="setPostFeedFilter('dusunce')" class="post-filter-chip" id="pfilter_dusunce">💭 Düşünceler</button>
+          <button type="button" onclick="setPostFeedFilter('hobi')" class="post-filter-chip" id="pfilter_hobi">🎨 Hobiler</button>
+        </div>
+
+        <!-- Live Search Bar for Posts -->
+        <div class="glass-card" style="padding: 8px 14px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; border-radius: 20px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="color: var(--text-sub); flex-shrink: 0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchPostsInput" oninput="handlePostsSearchInput()" placeholder="Gönderi başlığında veya metninde ara..." style="width: 100%; background: transparent; border: none; outline: none; color: white; font-family: inherit; font-size: 0.85rem;">
+          <button type="button" onclick="clearPostsSearch()" id="btnClearPostsSearch" style="display:none; background: transparent; border: none; color: var(--text-sub); font-size: 1.1rem; cursor: pointer; padding: 0 4px;" title="Temizle">&times;</button>
+        </div>
+
+        <!-- Love Posts Feed List -->
+        <div id="lovePostsFeedContainer" style="display: flex; flex-direction: column; gap: 14px;">
+          <!-- Dynamically populated posts -->
+        </div>
+      </section>
+    </div><!-- END MAIN PAGE 3: mainProfileView -->
+
+    <!-- MAIN PAGE 4: DİYET TAKİP -->
+    <!-- MAIN PAGE 4: DİYET TAKİP SAYFASI -->
+    <div id="mainDietView" class="main-page-view" style="display:none;">
+      <section class="view-section active" style="padding: 0 0 20px 0;">
+
+        <!-- 🤖 DİYET ANALİZİ & DANIŞMAN YORUMU (SAYFA BAŞINDA) -->
+        <div class="glass-card diet-ai-card" style="padding: 18px; margin-bottom: 16px; background: linear-gradient(135deg, rgba(255, 42, 109, 0.12) 0%, rgba(5, 217, 232, 0.12) 100%); border: 1px solid rgba(255,255,255,0.18);">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+            <span style="font-size:1.8rem;">🤖</span>
+            <div>
+              <h3 style="font-size:1.05rem; margin:0; font-weight:800; color:#fff;">Günlük Diyet Analizi & Tavsiye</h3>
+              <span style="font-size:0.75rem; color:var(--text-sub);">Anlık tüketim ve aktivite analizi</span>
+            </div>
+          </div>
+          <div id="dietAiAnalysisText" style="font-size:0.88rem; color:#fff; line-height:1.5; background:rgba(0,0,0,0.2); padding:12px 14px; border-radius:14px; border-left:3px solid var(--primary-pink);">
+            <!-- Dynamically populated analysis commentary -->
+          </div>
+        </div>
+
+        <!-- Diyet Header -->
+        <div class="glass-card diet-hero-card" style="padding: 20px; margin-bottom: 16px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h2 style="font-size:1.3rem; margin:0; display:flex; align-items:center; gap:8px;">
+                🥗 <span>Diyet &amp; Kalori Takibi</span>
+              </h2>
+              <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">Günlük öğünleri takip et, kalorini hesapla</p>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" onclick="openDietSettingsModal()" class="btn-secondary" style="padding:7px 13px; font-size:0.82rem; border-radius:20px;">
+                ⚙️ Hedef
+              </button>
+              <button type="button" onclick="openAddMealModal()" class="btn-primary" style="padding:7px 14px; font-size:0.82rem; border-radius:20px;">
+                ➕ Öğün Ekle
+              </button>
+            </div>
+          </div>
+
+          <!-- Daily Summary Ring -->
+          <div id="dietDailySummary" style="margin-top:16px;">
+            <!-- JS rendered -->
+          </div>
+        </div>
+
+        <!-- 🏃 SPOR VE EGZERSİZ TAKİBİ (YENİ BÖLÜM) -->
+        <div class="glass-card" style="padding:16px; margin-bottom:16px;" id="dietExerciseCard">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <div>
+              <h3 style="font-size:1rem; font-weight:700; margin:0;">🏋️ Spor &amp; Egzersiz Takibi</h3>
+              <span style="font-size:0.75rem; color:var(--text-sub);">Yakılan kalori günlük net kaloriden düşülür</span>
+            </div>
+            <button type="button" onclick="openAddExerciseModal()" class="btn-primary" style="padding:5px 12px; font-size:0.8rem; border-radius:20px;">
+              + Egzersiz Gir
+            </button>
+          </div>
+
+          <div id="dietExerciseLogsList">
+            <!-- JS rendered exercise entries -->
+          </div>
+        </div>
+
+        <!-- Diet Calendar -->
+        <div class="glass-card" style="padding:16px; margin-bottom:16px;">
+          <div class="calendar-nav" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <button type="button" class="cal-nav-btn" onclick="changeDietCalendarMonth(-1)">&#8249;</button>
+            <h3 id="dietCalendarMonthYearText" style="font-size:1.1rem; font-weight:700;">Temmuz 2026</h3>
+            <button type="button" class="cal-nav-btn" onclick="changeDietCalendarMonth(1)">&#8250;</button>
+          </div>
+          <div class="calendar-weekdays">
+            <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
+          </div>
+          <div class="calendar-grid" id="dietCalendarDaysGrid"></div>
+        </div>
+
+        <!-- Selected Day Panel -->
+        <div class="glass-card" style="padding:16px; margin-bottom:16px;" id="dietDayPanel">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <h3 id="dietSelectedDayTitle" style="font-size:1.05rem; font-weight:700;">📅 Bugün</h3>
+            <div style="display:flex; gap:6px;">
+              <button type="button" onclick="bulkDeleteSelectedDayMeals()" class="btn-danger" style="padding:5px 10px; font-size:0.78rem; border-radius:16px;">
+                🗑️ Toplu Sil
+              </button>
+              <button type="button" onclick="openAddMealModal()" class="btn-primary" style="padding:5px 12px; font-size:0.78rem; border-radius:16px;">
+                + Öğün Ekle
+              </button>
+            </div>
+          </div>
+          <div id="dietDayMealsList">
+            <!-- JS rendered meals for selected day -->
+          </div>
+        </div>
+
+        <!-- Water Tracker -->
+        <div class="glass-card" style="padding:16px; margin-bottom:16px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:6px;">
+            <div>
+              <h3 style="font-size:1rem; font-weight:700; margin:0;">💧 Günlük Su Takibi</h3>
+              <span id="dietWaterCountLabel" style="font-size:0.82rem; color:var(--accent-cyan); font-weight:bold;">0 / 8 bardak</span>
+            </div>
+            
+            <div style="display:flex; align-items:center; gap:8px;">
+              <!-- Reminder Toggle Switch -->
+              <label class="switch-toggle" title="Su Hatırlatıcı Ses" style="transform:scale(0.85);">
+                <input type="checkbox" id="chkWaterReminder" onchange="toggleWaterReminder(this.checked)">
+                <span class="slider-round"></span>
+              </label>
+              <button type="button" onclick="openWaterReminderSettingsModal()" class="btn-secondary" style="padding:4px 10px; font-size:0.75rem; border-radius:12px;">
+                ⚙️ Ayarla
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Liter Buttons & Glass Size selector -->
+          <div style="display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; align-items:center;">
+            <button type="button" onclick="addWaterLiters(0.25)" class="btn-secondary" style="padding:4px 10px; font-size:0.78rem; border-radius:14px;">+ 0.25 L</button>
+            <button type="button" onclick="addWaterLiters(0.5)" class="btn-secondary" style="padding:4px 10px; font-size:0.78rem; border-radius:14px;">+ 0.5 L</button>
+            <button type="button" onclick="addWaterLiters(1.0)" class="btn-secondary" style="padding:4px 10px; font-size:0.78rem; border-radius:14px;">+ 1.0 L</button>
+
+            <select id="selWaterGlassMl" onchange="changeWaterGlassVolume(this.value)" style="margin-left:auto; background:rgba(255,255,255,0.08); border:1px solid var(--glass-border); color:#fff; border-radius:12px; padding:4px 8px; font-size:0.78rem; outline:none;">
+              <option value="200">1 Bardak = 200 ml</option>
+              <option value="250" selected>1 Bardak = 250 ml</option>
+              <option value="330">1 Bardak = 330 ml</option>
+              <option value="450">1 Bardak = 450 ml</option>
+              <option value="500">1 Bardak = 500 ml</option>
+            </select>
+          </div>
+
+          <div id="dietWaterGlasses" style="display:flex; gap:8px; flex-wrap:wrap;">
+            <!-- JS rendered glasses -->
+          </div>
+        </div>
+
+        <!-- Weekly Trend Chart -->
+        <div class="glass-card" style="padding:16px; margin-bottom:16px;">
+          <h3 style="font-size:1rem; font-weight:700; margin-bottom:12px;">📈 7 Günlük Kalori Trendi</h3>
+          <canvas id="dietWeeklyChart" height="160" style="width:100%; border-radius:12px;"></canvas>
+        </div>
+
+        <!-- Weight Tracker -->
+        <div class="glass-card" style="padding:16px; margin-bottom:16px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <h3 style="font-size:1rem; font-weight:700;">⚖️ Kilo Takibi</h3>
+            <button type="button" onclick="openAddWeightModal()" class="btn-secondary" style="padding:5px 12px; font-size:0.8rem; border-radius:20px;">+ Kilo Gir</button>
+          </div>
+          <div id="dietWeightHistory" style="display:flex; flex-direction:column; gap:8px;">
+            <!-- JS rendered weight logs -->
+          </div>
+        </div>
+
+        <!-- 📐 VÜCUT KİTLE İNDEKSİ (VKİ) & PROTEİN HEDEFİ (Sayfanın En Altında) -->
+        <div class="glass-card" style="padding: 16px;" id="dietBmiProteinCard">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <h3 style="font-size:1rem; font-weight:700; display:flex; align-items:center; gap:6px;">
+              📐 <span>Vücut Kitle İndeksi &amp; Protein Takibi</span>
+            </h3>
+            <button type="button" onclick="openBmiEditModal()" class="btn-secondary" style="padding:4px 10px; font-size:0.78rem; border-radius:16px;">
+              ✏️ Düzenle
+            </button>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
+            <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:14px; text-align:center; border:1px solid rgba(255,255,255,0.08);">
+              <span style="font-size:0.75rem; color:var(--text-sub); display:block;">Vücut Kitle İndeksi (VKİ)</span>
+              <span id="bmiValueText" style="font-size:1.4rem; font-weight:800; color:var(--primary-pink); display:block; margin:2px 0;">--</span>
+              <span id="bmiStatusBadge" class="bmi-badge normal" style="font-size:0.72rem; padding:2px 8px; border-radius:10px;">✨ İndeks Skorun</span>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:14px; text-align:center; border:1px solid rgba(255,255,255,0.08);">
+              <span style="font-size:0.75rem; color:var(--text-sub); display:block;">Günlük Protein Hedefi</span>
+              <span id="proteinProgressText" style="font-size:1.4rem; font-weight:800; color:var(--accent-cyan); display:block; margin:2px 0;">0g / 0g</span>
+              <div style="width:100%; height:6px; background:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; margin-top:4px;">
+                <div id="proteinProgressBarFill" style="width:0%; height:100%; background:var(--accent-cyan); border-radius:10px; transition:width 0.5s ease;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div><!-- END MAIN PAGE 4: mainDietView -->
+
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar (3 Items Only: Ana Sayfa, Kütüphane, Profil) -->
+  <nav class="bottom-nav-bar" style="display: flex; justify-content: space-around; align-items: center;">
+    <!-- Sol: Ana Sayfa -->
+    <button type="button" id="bnavHome" onclick="switchMainPage('home')" class="bnav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Ana Sayfa</span>
+    </button>
+
+    <!-- Orta: Kütüphane -->
+    <button type="button" id="bnavGallery" onclick="switchMainPage('gallery')" class="bnav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <span>Kütüphane</span>
+    </button>
+
+    <!-- Sağdan 2.: Diyet Takip -->
+    <button type="button" id="bnavDiet" onclick="switchMainPage('diet')" class="bnav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+        <circle cx="12" cy="9" r="2.5"/>
+      </svg>
+      <span>Diyet</span>
+    </button>
+
+    <!-- Sağ: Profil -->
+    <button type="button" id="bnavProfile" onclick="switchMainPage('profile')" class="bnav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span>Profil</span>
+    </button>
+  </nav>
+
+  <!-- MODAL: Bildirimler Sekmesi (Notifications Drawer) -->
+  <div id="notificationsModal" class="modal-overlay">
+    <div class="modal-card glass-modal">
+      <div class="modal-header">
+        <h3>🔔 Hatırlatıcılar & Bildirimler</h3>
+        <button class="close-modal" id="closeNotificationsModal" onclick="closeNotificationsModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="notif-permission-banner" id="notifPermBanner" style="display:none">
+          <p>📲 <strong>Kilit Ekranı Bildirimleri:</strong> Günü gelen planlarınız ve not hatırlatıcılarınız için telefon kilit ekranınızda silinebilir bildirimler almak ister misiniz?</p>
+          <button id="btnRequestNotifPerm" class="btn-primary btn-full" style="margin-top:8px">Kilit Ekranı Bildirimlerini Etkinleştir</button>
+        </div>
+
+        <div class="notif-actions-top">
+          <span>Kayıtlı Bildirimler</span>
+          <button id="btnClearAllNotifs" class="btn-danger" style="font-size:0.75rem; padding:4px 10px;">Tümünü Sil</button>
+        </div>
+
+        <div id="notificationsList" class="notifications-list">
+          <!-- Dynamically populated notifications -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Settings & Preferences (Sekmeli Yapı) -->
+  <div id="settingsModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 id="settingsModalTitle">⚙️ Uygulama Ayarları</h3>
+        <button class="close-modal" id="closeSettingsModal" onclick="closeSettingsModal()">&times;</button>
+      </div>
+
+      <!-- Settings Sub-Tabs Navigation Bar (4 Subtabs) -->
+      <div class="settings-subtabs" style="display: flex; gap: 6px; margin: 12px 14px 4px 14px; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 8px; overflow-x: auto; scrollbar-width: none;">
+        <button type="button" id="tabSetNotif" onclick="switchSettingsSubtab('notif')" class="settings-tab-btn active" style="flex:1; padding: 7px 10px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; border: 1px solid transparent; cursor: pointer; text-align: center; white-space: nowrap;">
+          📌 Locket Widget
+        </button>
+        <button type="button" id="tabSetTheme" onclick="switchSettingsSubtab('theme')" class="settings-tab-btn" style="flex:1; padding: 7px 10px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; border: 1px solid transparent; cursor: pointer; text-align: center; white-space: nowrap;">
+          🎨 Renk Temaları
+        </button>
+        <button type="button" id="tabSetDate" onclick="switchSettingsSubtab('date')" class="settings-tab-btn" style="flex:1; padding: 7px 10px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; border: 1px solid transparent; cursor: pointer; text-align: center; white-space: nowrap;">
+          ❤️ Tarih
+        </button>
+        <button type="button" id="tabSetBackup" onclick="switchSettingsSubtab('backup')" class="settings-tab-btn" style="flex:1; padding: 7px 10px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; border: 1px solid transparent; cursor: pointer; text-align: center; white-space: nowrap;">
+          💾 Yedekle
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- SEKME 1: 📌 LOCKET ANA EKRAN WİDGET AYARLARI -->
+        <div id="setSecNotif" class="settings-section-view active">
+          
+          <!-- 💕 LOCKET TARZI ANA EKRAN WİDGET AYARLARI -->
+          <div style="background: linear-gradient(135deg, rgba(255, 42, 109, 0.2), rgba(139, 92, 246, 0.2)); border: 2px solid rgba(255, 42, 109, 0.5); border-radius: 16px; padding: 16px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <div>
+                <strong style="color: #ff7597; font-size: 1.05rem;">💕 Çift Widget (Locket Tarzı)</strong>
+                <p style="font-size: 0.78rem; color: var(--text-sub); margin-top: 2px;">Ana ekran canlı sayaç widget'ı (Sıfır Batarya / RAM)</p>
+              </div>
+              <label class="notif-toggle-wrap" style="margin-left: 12px;">
+                <input type="checkbox" id="toggleLocketWidget" onchange="toggleLocketWidgetState(event)">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <!-- Widget Canlı Önizleme -->
+            <div id="locketWidgetPreview" style="background: linear-gradient(180deg, #1a1a2e, #16213e); border-radius: 16px; padding: 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.1);">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <span id="previewStatus" style="font-size: 0.75rem; color: #fff; font-weight: 600;">Birlikte 💕</span>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span id="previewAvatar1" style="width: 36px; height: 36px; border-radius: 50%; background: #2d2d44; border: 2px solid #ff2a6d; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.9rem;">T</span>
+                  <span style="color: #ff2a6d; font-size: 1rem;">❤️</span>
+                  <span id="previewAvatar2" style="width: 36px; height: 36px; border-radius: 50%; background: #2d2d44; border: 2px solid #ff2a6d; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 0.9rem;">S</span>
+                </div>
+                <div style="display: flex; gap: 14px;">
+                  <span id="previewName1" style="font-size: 0.65rem; color: #ccc;">Tuğçe</span>
+                  <span id="previewName2" style="font-size: 0.65rem; color: #ccc;">Seçkin</span>
+                </div>
+              </div>
+              <div style="flex: 1; background: rgba(8, 4, 16, 0.5); border-radius: 14px; padding: 8px 6px; border: 1px solid rgba(255,255,255,0.12); text-align: center;">
+                <span id="previewLabel" style="font-size: 0.7rem; color: #fff; font-weight: 700; letter-spacing: 0.3px;">Birlikte:</span>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 6px;">
+                  <div class="preview-glass-tile" style="background: rgba(255,255,255,0.1); border: 1px solid #ff2a6d; border-radius: 10px; padding: 6px 2px; text-align: center;">
+                    <span id="previewMonths" style="font-size: 1rem; color: #fff; font-weight: 700; display: block; line-height: 1;">0</span>
+                    <span style="font-size: 0.52rem; color: #B0B0CC; font-weight: 700; display: block; margin-top: 2px;">AY</span>
+                  </div>
+                  <div class="preview-glass-tile" style="background: rgba(255,255,255,0.1); border: 1px solid #ff2a6d; border-radius: 10px; padding: 6px 2px; text-align: center;">
+                    <span id="previewDays" style="font-size: 1rem; color: #fff; font-weight: 700; display: block; line-height: 1;">0</span>
+                    <span style="font-size: 0.52rem; color: #B0B0CC; font-weight: 700; display: block; margin-top: 2px;">GÜN</span>
+                  </div>
+                  <div class="preview-glass-tile" style="background: rgba(255,255,255,0.1); border: 1px solid #ff2a6d; border-radius: 10px; padding: 6px 2px; text-align: center;">
+                    <span id="previewHours" style="font-size: 1rem; color: #fff; font-weight: 700; display: block; line-height: 1;">00</span>
+                    <span style="font-size: 0.52rem; color: #B0B0CC; font-weight: 700; display: block; margin-top: 2px;">SAAT</span>
+                  </div>
+                  <div class="preview-glass-tile" style="background: rgba(255,255,255,0.1); border: 1px solid #ff2a6d; border-radius: 10px; padding: 6px 2px; text-align: center;">
+                    <span id="previewMins" style="font-size: 1rem; color: #fff; font-weight: 700; display: block; line-height: 1;">00</span>
+                    <span style="font-size: 0.52rem; color: #B0B0CC; font-weight: 700; display: block; margin-top: 2px;">DK</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mod Seçimi -->
+            <div style="margin-bottom: 12px;">
+              <label style="font-size: 0.8rem; color: var(--text-main); font-weight: 600; margin-bottom: 6px; display: block;">Mod Seçimi</label>
+              <div style="display: flex; gap: 6px;">
+                <button type="button" id="modeCountUp" class="btn-primary" style="flex: 1; padding: 8px 4px; font-size: 0.75rem; border-radius: 10px;" onclick="setWidgetMode('count_up')">📅 Birlikte Geçen Süre</button>
+                <button type="button" id="modeCountdown" class="btn-primary" style="flex: 1; padding: 8px 4px; font-size: 0.75rem; border-radius: 10px; opacity: 0.5;" onclick="setWidgetMode('countdown')">⏳ Geri Sayım</button>
+              </div>
+            </div>
+
+            <!-- Widget Renk Teması Seçimi -->
+            <div style="margin-bottom: 12px;">
+              <label style="font-size: 0.8rem; color: var(--text-main); font-weight: 600; margin-bottom: 6px; display: block;">🎨 Widget Renk Teması</label>
+              <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;">
+                <button type="button" id="wTheme_pink" onclick="setWidgetTheme('pink')" title="Pembe & Mor" style="padding: 8px 0; border-radius: 10px; background: linear-gradient(135deg, #120c1f, #ff2a6d); border: 2px solid #ff2a6d; color: #fff; font-size: 0.85rem; cursor: pointer; text-align: center;">💖</button>
+                <button type="button" id="wTheme_blue" onclick="setWidgetTheme('blue')" title="Gece Mavisi" style="padding: 8px 0; border-radius: 10px; background: linear-gradient(135deg, #0a192f, #64ffda); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 0.85rem; cursor: pointer; text-align: center;">💙</button>
+                <button type="button" id="wTheme_gold" onclick="setWidgetTheme('gold')" title="Siyah & Altın" style="padding: 8px 0; border-radius: 10px; background: linear-gradient(135deg, #0d0d0d, #ffd700); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 0.85rem; cursor: pointer; text-align: center;">🖤</button>
+                <button type="button" id="wTheme_emerald" onclick="setWidgetTheme('emerald')" title="Zümrüt" style="padding: 8px 0; border-radius: 10px; background: linear-gradient(135deg, #0a1f1c, #00f5d4); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 0.85rem; cursor: pointer; text-align: center;">💚</button>
+                <button type="button" id="wTheme_rose" onclick="setWidgetTheme('rose')" title="Gül Kırmızı" style="padding: 8px 0; border-radius: 10px; background: linear-gradient(135deg, #1f0a10, #ff4d6d); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 0.85rem; cursor: pointer; text-align: center;">❤️</button>
+              </div>
+            </div>
+
+            <!-- Geri Sayım Hedef Tarih (sadece countdown modunda) -->
+            <div id="countdownTargetSection" style="display: none; margin-bottom: 12px;">
+              <label style="font-size: 0.8rem; color: var(--text-main); font-weight: 600; margin-bottom: 6px; display: block;">Geri Sayım Hedef Tarihi</label>
+              <input type="datetime-local" id="widgetTargetDate" style="width: 100%; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(--text-main); font-size: 0.85rem;">
+              <label style="font-size: 0.8rem; color: var(--text-main); font-weight: 600; margin-top: 8px; margin-bottom: 6px; display: block;">Geri Sayım Etiketi</label>
+              <input type="text" id="widgetCountdownLabel" value="Tekrar Görüşmeye:" placeholder="Tekrar Görüşmeye:" style="width: 100%; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(--text-main); font-size: 0.85rem;">
+            </div>
+
+            <!-- Durum Mesajı -->
+            <div style="margin-bottom: 12px;">
+              <label style="font-size: 0.8rem; color: var(--text-main); font-weight: 600; margin-bottom: 6px; display: block;">Durum Mesajı</label>
+              <input type="text" id="widgetStatusMsg" value="Birlikte 💕" placeholder="Birlikte 💕" style="width: 100%; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(--text-main); font-size: 0.85rem;">
+            </div>
+
+            <!-- Partner İsimleri -->
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <div style="flex: 1;">
+                <label style="font-size: 0.8rem; color: var(--text-main); font-weight: 600; margin-bottom: 6px; display: block;">Partner 1</label>
+                <input type="text" id="widgetName1" value="Tuğçe" style="width: 100%; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(--text-main); font-size: 0.85rem;">
+              </div>
+              <div style="flex: 1;">
+                <label style="font-size: 0.8rem; color: var(--text-main); font-weight: 600; margin-bottom: 6px; display: block;">Partner 2</label>
+                <input type="text" id="widgetName2" value="Seçkin" style="width: 100%; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(--text-main); font-size: 0.85rem;">
+              </div>
+            </div>
+
+            <!-- Partner Görselleri (İsteğe Bağlı) -->
+            <div style="margin-bottom: 14px; background: rgba(255,255,255,0.04); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+              <label style="font-size: 0.8rem; color: var(--text-main); font-weight: 600; margin-bottom: 8px; display: block;">📷 Partner Görselleri (İsteğe Bağlı)</label>
+              <div style="display: flex; gap: 8px;">
+                <div style="flex: 1; text-align: center;">
+                  <button type="button" onclick="selectWidgetAvatar(1)" class="btn-primary" style="width: 100%; padding: 8px 4px; font-size: 0.72rem; border-radius: 10px; background: rgba(255,42,109,0.2); border: 1px solid rgba(255,42,109,0.4); display: flex; align-items: center; justify-content: center; gap: 4px;">
+                    📷 <span>Fotoğraf 1 Seç</span>
+                  </button>
+                  <input type="file" id="widgetAvatarFile1" accept="image/*" style="display:none;" onchange="handleWidgetAvatarFile(1, event)">
+                  <button type="button" id="btnRemoveWidgetAvatar1" onclick="removeWidgetAvatar(1)" style="display:none; font-size:0.65rem; color:#ff4444; background:none; border:none; margin-top:4px; cursor:pointer;">❌ Kaldır</button>
+                </div>
+                <div style="flex: 1; text-align: center;">
+                  <button type="button" onclick="selectWidgetAvatar(2)" class="btn-primary" style="width: 100%; padding: 8px 4px; font-size: 0.72rem; border-radius: 10px; background: rgba(255,42,109,0.2); border: 1px solid rgba(255,42,109,0.4); display: flex; align-items: center; justify-content: center; gap: 4px;">
+                    📷 <span>Fotoğraf 2 Seç</span>
+                  </button>
+                  <input type="file" id="widgetAvatarFile2" accept="image/*" style="display:none;" onchange="handleWidgetAvatarFile(2, event)">
+                  <button type="button" id="btnRemoveWidgetAvatar2" onclick="removeWidgetAvatar(2)" style="display:none; font-size:0.65rem; color:#ff4444; background:none; border:none; margin-top:4px; cursor:pointer;">❌ Kaldır</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kaydet & Ana Ekrana Ekle Butonları -->
+            <button type="button" onclick="saveLocketWidgetSettings()" class="btn-primary btn-full" style="margin-bottom: 8px; background: linear-gradient(135deg, #ff2a6d, #8b5cf6); display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span>💾 Ayarları Kaydet & Widget'ı Güncelle</span>
+            </button>
+            <button type="button" onclick="pinLocketWidget()" class="btn-primary btn-full" style="background: linear-gradient(135deg, #ffb703, #ff6b35); display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span>📌 Widget'ı Ana Ekrana Ekle</span>
+            </button>
+
+            <!-- Xiaomi Kurulum Rehberi -->
+            <div style="background: rgba(255, 183, 3, 0.1); border: 1px solid rgba(255, 183, 3, 0.25); border-radius: 12px; padding: 12px; margin-top: 12px;">
+              <strong style="color: #ffb703; font-size: 0.8rem;">⚠️ Xiaomi / MIUI Kullanıcıları</strong>
+              <p style="font-size: 0.72rem; color: var(--text-sub); margin-top: 4px; line-height: 1.5;">
+                Widget'ın sürekli çalışması için:<br>
+                1️⃣ <strong>Ayarlar > Uygulamalar > S❤T > Oto-başlatma</strong> açık olmalı<br>
+                2️⃣ <strong>Pil Tasarrufu > S❤T > Kısıtlama Yok</strong> seçin<br>
+                3️⃣ Son uygulamalarda <strong>S❤T kartını kilitleyin</strong> (aşağı çekin)
+              </p>
+            </div>
+          </div>
+
+          <!-- KİLİT EKRANI BİLDİRİMİ AÇ/KAPAT -->
+          <div style="background: rgba(255, 42, 109, 0.1); border: 1px solid rgba(255, 42, 109, 0.3); border-radius: 16px; padding: 16px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <strong style="color: #ff7597; font-size: 0.95rem;">Kilit Ekranı Bildirimi</strong>
+                <p style="font-size: 0.8rem; color: var(--text-sub); margin-top: 2px;">Kilit ekranınızda mor canlı sayaç bildirimini açar veya kapatır.</p>
+              </div>
+              <label class="notif-toggle-wrap" style="margin-left: 12px;">
+                <input type="checkbox" id="btnToggleNotificationSwitchModal" checked onchange="toggleNotificationState(event)">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 5 KALPLİ CANLI ANA EKRAN WİDGET'I -->
+          <div style="background: rgba(255, 183, 3, 0.1); border: 1px solid rgba(255, 183, 3, 0.3); border-radius: 16px; padding: 16px; margin-bottom: 16px;">
+            <strong style="color: #ffb703; font-size: 0.95rem;">📌 5 Kalpli Canlı Ana Ekran Widget'ı</strong>
+            <p style="font-size: 0.8rem; color: var(--text-sub); margin-top: 2px; margin-bottom: 12px;">Telefonunuzun ana ekranında 5 kalpli pembe canlı widget görünmesi için tek tıkla ekleyin.</p>
+            <button type="button" onclick="pinWidgetToHomeScreen()" class="btn-primary btn-full" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+              <span>Widget'ı Ana Ekrana Sabitle</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SEKME 2: 🎨 UYGULAMA RENK TEMALARI -->
+        <div id="setSecTheme" class="settings-section-view" style="display: none;">
+          <p style="font-size: 0.82rem; color: var(--text-sub); margin-bottom: 14px;">
+            Uygulamanızın renk paletini tek tıkla değiştirin. Seçtiğiniz tema anında tüm sayfalara, butonlara, kapaklara ve sayaç kalplerine uygulanır.
+          </p>
+
+          <div class="theme-grid-selector" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+            <!-- Tema 1: Romantic Neon (Pembe & Altın - Varsayılan) -->
+            <div class="theme-card-option active" id="themeCard_neon" onclick="applyAppTheme('neon')">
+              <div class="theme-color-swatches" style="background: linear-gradient(135deg, #0f0c20, #ff2a6d, #ffb703);"></div>
+              <div class="theme-card-info">
+                <strong>💖 Romantic Neon</strong>
+                <small>Pembe & Altın (Varsayılan)</small>
+              </div>
+              <span class="theme-check-icon">✔</span>
+            </div>
+
+            <!-- Tema 2: Monochrome Noir (Siyah & Beyaz - Minimalist) -->
+            <div class="theme-card-option" id="themeCard_noir" onclick="applyAppTheme('noir')">
+              <div class="theme-color-swatches" style="background: linear-gradient(135deg, #0a0a0c, #ffffff, #52525b);"></div>
+              <div class="theme-card-info">
+                <strong>🖤 Monochrome Noir</strong>
+                <small>Siyah & Beyaz (Asil)</small>
+              </div>
+              <span class="theme-check-icon">✔</span>
+            </div>
+
+            <!-- Tema 3: Ocean Midnight (Turkuaz & Gece Mavisi) -->
+            <div class="theme-card-option" id="themeCard_ocean" onclick="applyAppTheme('ocean')">
+              <div class="theme-color-swatches" style="background: linear-gradient(135deg, #030c1d, #00f5d4, #7b2cbf);"></div>
+              <div class="theme-card-info">
+                <strong>💜 Ocean Midnight</strong>
+                <small>Turkuaz & Gece Mavisi</small>
+              </div>
+              <span class="theme-check-icon">✔</span>
+            </div>
+
+            <!-- Tema 4: Emerald Passion (Zümrüt Yeşil & Amber) -->
+            <div class="theme-card-option" id="themeCard_emerald" onclick="applyAppTheme('emerald')">
+              <div class="theme-color-swatches" style="background: linear-gradient(135deg, #03140e, #10b981, #f59e0b);"></div>
+              <div class="theme-card-info">
+                <strong>🌿 Emerald Passion</strong>
+                <small>Zümrüt Yeşil & Amber</small>
+              </div>
+              <span class="theme-check-icon">✔</span>
+            </div>
+
+            <!-- Tema 5: Cyber Velvet (Mor & Gece Pembesi) -->
+            <div class="theme-card-option" id="themeCard_cyber" onclick="applyAppTheme('cyber')">
+              <div class="theme-color-swatches" style="background: linear-gradient(135deg, #0d021c, #d946ef, #38bdf8);"></div>
+              <div class="theme-card-info">
+                <strong>🔮 Cyber Velvet</strong>
+                <small>Elektrik Mor & Macenta</small>
+              </div>
+              <span class="theme-check-icon">✔</span>
+            </div>
+
+            <!-- Tema 6: Sunset Romance (Gün Batımı & Mercan) -->
+            <div class="theme-card-option" id="themeCard_sunset" onclick="applyAppTheme('sunset')">
+              <div class="theme-color-swatches" style="background: linear-gradient(135deg, #1f070c, #ff4d6d, #ffb703);"></div>
+              <div class="theme-card-info">
+                <strong>🌅 Sunset Romance</strong>
+                <small>Gün Batımı & Mercan</small>
+              </div>
+              <span class="theme-check-icon">✔</span>
+            </div>
+
+            <!-- Tema 7: Cherry Blossom (Sakura Pembesi & Krem) -->
+            <div class="theme-card-option" id="themeCard_blossom" onclick="applyAppTheme('blossom')">
+              <div class="theme-color-swatches" style="background: linear-gradient(135deg, #1c0f16, #ff9ebb, #ffe5ec);"></div>
+              <div class="theme-card-info">
+                <strong>🌸 Cherry Blossom</strong>
+                <small>Sakura Pembesi & Krem</small>
+              </div>
+              <span class="theme-check-icon">✔</span>
+            </div>
+
+            <!-- Tema 8: Deep Cosmos (Galaksi Mavi & Yıldız Işığı) -->
+            <div class="theme-card-option" id="themeCard_cosmos" onclick="applyAppTheme('cosmos')">
+              <div class="theme-color-swatches" style="background: linear-gradient(135deg, #060b1e, #4cc9f0, #7209b7);"></div>
+              <div class="theme-card-info">
+                <strong>🌌 Deep Cosmos</strong>
+                <small>Galaksi Mavi & Yıldız</small>
+              </div>
+              <span class="theme-check-icon">✔</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEKME 2: ❤️ TARİH VE KİŞİLER AYARLARI -->
+        <div id="setSecDate" class="settings-section-view" style="display: none;">
+          <form id="settingsForm">
+            <div class="form-group">
+              <label for="inputPartner1">1. Kişi İsim / Rumuz:</label>
+              <input type="text" id="inputPartner1" placeholder="Örn: Seçkin" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inputPartner2">2. Kişi İsim / Rumuz:</label>
+              <input type="text" id="inputPartner2" placeholder="Örn: Tuğçe" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inputStartDate">İlişki Başlama Tarihi ve Saati:</label>
+              <input type="datetime-local" id="inputStartDate" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>1. Kişi Fotoğrafı (Opsiyonel):</label>
+                <input type="file" id="inputAvatar1" accept="image/*">
+              </div>
+              <div class="form-group">
+                <label>2. Kişi Fotoğrafı (Opsiyonel):</label>
+                <input type="file" id="inputAvatar2" accept="image/*">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary btn-full">Tarihi ve İsimleri Kaydet ❤️</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- SEKME 3: 💾 YEDEKLE & YÜKLE -->
+        <div id="setSecBackup" class="settings-section-view" style="display: none;">
+          <div class="backup-restore-area" style="display: flex; flex-direction: column; gap: 12px;">
+            <p style="font-size: 0.85rem; color: var(--text-sub); text-align: center;">Tüm anılarınızı, gelecek planlarınızı ve notlarınızı yedek dosyası olarak saklayabilir veya yeni bir cihaza aktarabilirsiniz.</p>
+            <button id="btnExportData" class="btn-secondary" style="width: 100%;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Yedek İndir (JSON)
+            </button>
+            <label for="importFile" class="btn-secondary" style="width: 100%; text-align: center; cursor: pointer;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Yedek Yükle
+            </label>
+            <input type="file" id="importFile" accept=".json" style="display:none">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Add/Edit Memory Note & Photos for Calendar Date -->
+  <div id="memoryModal" class="modal-overlay">
+    <div class="modal-card glass-modal">
+      <div class="modal-header">
+        <h3 id="memoryModalTitle">Tarih İçin Anı / Not Ekle</h3>
+        <button type="button" class="close-modal" id="closeMemoryModal" onclick="closeMemoryModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="memoryForm">
+          <input type="hidden" id="memoryId">
+          <input type="hidden" id="memoryDate">
+
+          <div class="date-badge-highlight" id="memorySelectedDateText">
+            Selected Date
+          </div>
+
+          <div class="form-group">
+            <label for="memoryTitle">Anı Başlığı / Etiket:</label>
+            <input type="text" id="memoryTitle" placeholder="Örn: İlk Buluşmamız, Yıldönümü, Sürpriz..." required>
+          </div>
+
+          <div class="form-group">
+            <label for="memoryCategory">Kategori / Simge:</label>
+            <select id="memoryCategory">
+              <option value="❤️">❤️ Sevgi & Aşk</option>
+              <option value="🌹">🌹 Özel Randevu / Buluşma</option>
+              <option value="🎁">🎁 Sürpriz & Hediye</option>
+              <option value="✈️">✈️ Gezi & Tatil</option>
+              <option value="🎂">🎂 Doğum Günü / Kutlama</option>
+              <option value="⭐">⭐ Özel Anı</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="memoryNotes">Bilgi & Notlar:</label>
+            <textarea id="memoryNotes" rows="4" placeholder="Bu güzel gün hakkında hatırlamak istediğiniz notları yazın..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Fotoğraf Ekle (Opsiyonel):</label>
+            <input type="file" id="memoryPhotosInput" accept="image/*" multiple>
+            <div id="photoPreviewContainer" class="photo-preview-grid"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="btnDeleteMemory" class="btn-danger" style="display:none">Anıyı Sil</button>
+            <button type="submit" class="btn-primary">Anıyı Kaydet ❤️</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Add/Edit Future Plan -->
+  <div id="futureModal" class="modal-overlay">
+    <div class="modal-card glass-modal">
+      <div class="modal-header">
+        <h3 id="futureModalTitle">Gelecek Planı Ekle ✨</h3>
+        <button type="button" class="close-modal" id="closeFutureModal" onclick="closeFutureModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="futureForm">
+          <input type="hidden" id="futurePlanId">
+
+          <div class="form-group">
+            <label for="futureTitle">Plan Başlığı:</label>
+            <input type="text" id="futureTitle" placeholder="Örn: İtalya Tatili, Evlilik Yıldönümü, Birlikte Konser..." required>
+          </div>
+
+          <div class="form-group">
+            <label for="futureTargetDate">Hedef Tarih ve Saat:</label>
+            <input type="datetime-local" id="futureTargetDate" required>
+          </div>
+
+          <div class="form-group">
+            <label for="futureCategory">Kategori / Simge:</label>
+            <select id="futureCategory">
+              <option value="✈️">✈️ Gezilecek Yer / Tatil</option>
+              <option value="💍">💍 Özel Gün & Yıldönümü</option>
+              <option value="🎁">🎁 Sürpriz & Hediye</option>
+              <option value="🎟️">🎟️ Etkinlik & Konser</option>
+              <option value="🏡">🏡 Gelecek & Ev Planı</option>
+              <option value="⭐">⭐ Hayal & Hedef</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="futureNotes">Plan Notları & Detaylar:</label>
+            <textarea id="futureNotes" rows="3" placeholder="Birlikte neler yapacaksınız, alınacaklar veya rezervasyon notları..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Durum:</label>
+            <select id="futureStatus">
+              <option value="planned">⏳ Planlandı (Bekliyor)</option>
+              <option value="completed">🎉 Tamamlandı!</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="btnDeleteFuturePlan" class="btn-danger" style="display:none">Planı Sil</button>
+            <button type="submit" class="btn-primary">Planı Kaydet ✨</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Add/Edit User Note with Alarm Reminder -->
+  <div id="noteModal" class="modal-overlay">
+    <div class="modal-card glass-modal">
+      <div class="modal-header">
+        <h3 id="noteModalTitle">Özel Not & Hatırlatıcı Ekle 📝</h3>
+        <button type="button" class="close-modal" id="closeNoteModal" onclick="closeNoteModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="noteForm">
+          <input type="hidden" id="noteId">
+
+          <div class="form-group">
+            <label for="noteTitle">Not Başlığı:</label>
+            <input type="text" id="noteTitle" placeholder="Örn: Sürpriz hediyeyi sipariş et, Buluşma yeri belirle..." required>
+          </div>
+
+          <div class="form-group">
+            <label for="noteCategory">Kategori / Simge:</label>
+            <select id="noteCategory">
+              <option value="💖">💖 Aşk Notu</option>
+              <option value="⏰">⏰ Hatırlatıcı & Alarm</option>
+              <option value="🎁">🎁 Sürpriz / Hediye Notu</option>
+              <option value="📝">📝 Günlük Not</option>
+              <option value="🛒">🛒 Görev & Liste</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="noteBody">Not Detayı / İçeriği:</label>
+            <textarea id="noteBody" rows="4" placeholder="Notunuzun detaylarını yazın..."></textarea>
+          </div>
+
+          <!-- REMINDER ALARM SETTINGS BOX -->
+          <div class="reminder-setting-box" style="background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 14px; border-radius: 16px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <strong style="color: #fff; font-size: 0.92rem; display: flex; align-items: center; gap: 6px;">
+                🔔 Özel Bildirim / Hatırlatıcı Kur
+              </strong>
+              <label class="switch-toggle">
+                <input type="checkbox" id="noteReminderEnabled">
+                <span class="slider-round"></span>
+              </label>
+            </div>
+
+            <div id="reminderTimeControls" style="display:none; margin-top: 10px;">
+              <div class="form-group" style="margin-bottom: 10px;">
+                <label for="noteReminderDateTime">Hatırlatılacak Tarih & Saat:</label>
+                <input type="datetime-local" id="noteReminderDateTime">
+              </div>
+
+              <!-- Quick Time Preset Buttons -->
+              <label style="font-size: 0.78rem; color: var(--text-muted); display: block; margin-bottom: 6px;">Hızlı Süre Seç (Dakika/Saat Sonra):</label>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <button type="button" class="btn-secondary btn-quick-time" data-minutes="15">+15 Dakika</button>
+                <button type="button" class="btn-secondary btn-quick-time" data-minutes="30">+30 Dakika</button>
+                <button type="button" class="btn-secondary btn-quick-time" data-minutes="60">+1 Saat</button>
+                <button type="button" class="btn-secondary btn-quick-time" data-minutes="180">+3 Saat</button>
+                <button type="button" class="btn-secondary btn-quick-time" data-minutes="1440">Yarın Bu Saatte</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="btnDeleteNote" class="btn-danger" style="display:none">Notu Sil</button>
+            <button type="submit" class="btn-primary">Notu Kaydet 📝</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Kilit Ekranı Widget Modu & Arka Plan Generator -->
+  <div id="lockscreenWidgetModal" class="modal-overlay">
+    <div class="modal-card glass-modal modal-large">
+      <div class="modal-header">
+        <h3>Telefon Kilit Ekranı Widget & Ambient Display Modu</h3>
+        <button type="button" class="close-modal" id="closeLockscreenModal" onclick="closeLockscreenModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="widget-mode-switcher">
+          <button id="subtabAmbient" class="subtab-btn active">Kilit Ekranı Modu (Canlı Tam Ekran)</button>
+          <button id="subtabGenerator" class="subtab-btn">Widget Görseli İndir (Duvar Kağıdı)</button>
+        </div>
+
+        <!-- SUBTAB 1: LIVE AMBIENT LOCKSCREEN MODE -->
+        <div id="ambientModeView" class="subtab-view active">
+          <div class="ambient-phone-frame">
+            <div class="phone-notch"></div>
+            <div class="ambient-lockscreen-content">
+              <div class="ambient-clock" id="ambientClock">12:34</div>
+              <div class="ambient-date" id="ambientDate">26 Temmuz Pazar</div>
+              
+              <div class="ambient-widget-card" style="padding: 14px 8px;">
+                <div class="ambient-widget-title" style="font-size: 1.05rem; font-weight: bold; margin-bottom: 10px;">
+                  <svg viewBox="0 0 24 24" fill="#ff4b72" width="18" height="18"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                  <span id="ambientCouplesName">Seçkin & Tuğçe</span>
+                </div>
+                
+                <!-- 6 Kalp (YIL, AY, GÜN, SAAT, DAKİKA, SANİYE) -->
+                <div class="ambient-hearts-row" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px;">
+                  <div class="ambient-heart-item">
+                    <svg class="ambient-heart-svg" viewBox="0 0 100 90"><path class="ambient-heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/></svg>
+                    <div class="ambient-heart-content"><span class="val" id="ambYears">0</span><span class="lbl">YIL</span></div>
+                  </div>
+
+                  <div class="ambient-heart-item">
+                    <svg class="ambient-heart-svg" viewBox="0 0 100 90"><path class="ambient-heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/></svg>
+                    <div class="ambient-heart-content"><span class="val" id="ambMonths">0</span><span class="lbl">AY</span></div>
+                  </div>
+
+                  <div class="ambient-heart-item">
+                    <svg class="ambient-heart-svg" viewBox="0 0 100 90"><path class="ambient-heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/></svg>
+                    <div class="ambient-heart-content"><span class="val" id="ambDays">0</span><span class="lbl">GÜN</span></div>
+                  </div>
+
+                  <div class="ambient-heart-item">
+                    <svg class="ambient-heart-svg" viewBox="0 0 100 90"><path class="ambient-heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/></svg>
+                    <div class="ambient-heart-content"><span class="val" id="ambHours">0</span><span class="lbl">SAAT</span></div>
+                  </div>
+
+                  <div class="ambient-heart-item">
+                    <svg class="ambient-heart-svg" viewBox="0 0 100 90"><path class="ambient-heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/></svg>
+                    <div class="ambient-heart-content"><span class="val" id="ambMins">0</span><span class="lbl">DK</span></div>
+                  </div>
+
+                  <div class="ambient-heart-item">
+                    <svg class="ambient-heart-svg" viewBox="0 0 100 90"><path class="ambient-heart-path" d="M50,85 C50,85 10,55 10,28 C10,12 23,5 36,5 C44,5 48,10 50,14 C52,10 56,5 64,5 C77,5 90,12 90,28 C90,55 50,85 50,85 Z"/></svg>
+                    <div class="ambient-heart-content"><span class="val" id="ambSecs" style="color:#ffb703;">0</span><span class="lbl">SANİYE</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ambient-footer-quote">
+                "Birlikte Geçen Her Saniye Değerli" ❤️
+              </div>
+            </div>
+          </div>
+
+          <div class="ambient-instructions">
+            <p>💡 <strong>Kilit Ekranı Widget'ı:</strong> Eski bildirim birikintileri temizlenerek 6 kalpli saniye akışlı şık widget kilit ekranınıza sabitlenir.</p>
+            <button id="btnPinLockscreenModalBtn" class="btn-primary glow-btn" style="width: 100%; padding: 12px; font-weight: bold; margin-top: 10px;">
+              📌 Kilit Ekranına Canlı Widget Olarak Sabitle (Eski Bildirimleri Temizle)
+            </button>
+          </div>
+        </div>
+
+        <!-- SUBTAB 2: WIDGET WALLPAPER GENERATOR -->
+        <div id="generatorModeView" class="subtab-view">
+          <p class="section-desc">Kilit ekranınız için kalpler içinde gün, ay, yıl, saat ve dakika sayacını içeren özel çözünürlüklü kilit ekranı widget resmi veya duvar kağıdı oluşturun.</p>
+          
+          <div class="canvas-preview-wrap">
+            <canvas id="widgetCanvas" width="1080" height="1920"></canvas>
+          </div>
+
+          <div class="generator-controls">
+            <button id="btnGenerateWidget" class="btn-secondary">Görseli Yenile / Güncelle</button>
+            <button id="btnDownloadWidget" class="btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Widget Görselini İndir (HD)
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE NEW ALBUM / FOLDER -->
+  <div id="albumModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width: 420px;">
+      <div class="modal-header">
+        <h3>📁 Yeni Klasör / Albüm Oluştur</h3>
+        <button type="button" class="close-modal" onclick="closeAlbumModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="albumForm" onsubmit="handleAlbumFormSubmit(event)">
+          <div class="form-group">
+            <label for="inputAlbumTitle">Klasör Başlığı:</label>
+            <input type="text" id="inputAlbumTitle" placeholder="Örn: İtalya Tatilimiz ✈️, Doğum Günü 🎂, Buluşmalar 🌹" required>
+          </div>
+
+          <div class="form-actions" style="margin-top: 20px;">
+            <button type="submit" class="btn-primary btn-full">Klasörü Oluştur 📁</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN PHOTO VIEWER MODAL WITH NOTE & EMOJI EDITOR -->
+  <div id="photoViewerModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width: 620px; text-align: center;">
+      <div class="modal-header">
+        <h3 id="fullPhotoCaption" style="margin: 0; font-size: 1.05rem; color: var(--primary-pink);">Fotoğraf</h3>
+        <button type="button" class="close-modal" id="closePhotoViewerModal" onclick="closePhotoViewerModal()">&times;</button>
+      </div>
+
+      <div style="position: relative; display: inline-block; max-width: 100%;">
+        <img id="fullPhotoImg" src="" alt="Anı Fotoğrafı" style="max-width: 100%; max-height: 48vh; border-radius: 14px; object-fit: contain; box-shadow: 0 8px 30px rgba(0,0,0,0.6);">
+        <div id="fullPhotoEmojiOverlay" style="position: absolute; bottom: 10px; right: 14px; font-size: 2.2rem; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8)); display: none;">💖</div>
+      </div>
+
+      <!-- Emoji Picker Bar -->
+      <div style="margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <span style="font-size: 0.78rem; color: var(--text-sub); display: block; width: 100%; margin-bottom: 2px;">Emoji Bırak:</span>
+        <button type="button" onclick="setPhotoEmoji('💖')" class="btn-emoji-pick">💖</button>
+        <button type="button" onclick="setPhotoEmoji('✈️')" class="btn-emoji-pick">✈️</button>
+        <button type="button" onclick="setPhotoEmoji('🌹')" class="btn-emoji-pick">🌹</button>
+        <button type="button" onclick="setPhotoEmoji('🎂')" class="btn-emoji-pick">🎂</button>
+        <button type="button" onclick="setPhotoEmoji('😍')" class="btn-emoji-pick">😍</button>
+        <button type="button" onclick="setPhotoEmoji('✨')" class="btn-emoji-pick">✨</button>
+        <button type="button" onclick="setPhotoEmoji('🥂')" class="btn-emoji-pick">🥂</button>
+        <button type="button" onclick="setPhotoEmoji('')" class="btn-emoji-pick" style="font-size:0.75rem; color:#aaa;">Kaldır</button>
+      </div>
+
+      <!-- Romantic Note / Caption Area -->
+      <div style="margin-top: 10px; text-align: left;">
+        <label for="inputPhotoNote" style="font-size: 0.8rem; color: var(--text-sub); font-weight: bold;">Fotoğrafa Özel Not / Açıklama:</label>
+        <textarea id="inputPhotoNote" rows="2" placeholder="Örn: Roma seyahatimizden harika bir kare... ❤️" style="width: 100%; margin-top: 4px; padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: white; font-family: inherit; font-size: 0.85rem; resize: none;"></textarea>
+      </div>
+
+      <div id="fullPhotoSubtext" style="font-size: 0.78rem; color: var(--text-sub); margin-top: 8px;"></div>
+
+      <div style="display: flex; justify-content: center; gap: 10px; margin-top: 14px; flex-wrap: wrap;">
+        <button type="button" id="btnSavePhotoNote" onclick="savePhotoNoteAndEmoji()" class="btn-primary" style="padding: 8px 18px; font-size: 0.85rem; border-radius: 20px;">
+          💾 Notu & Emojiyi Kaydet
+        </button>
+        <button type="button" onclick="moveCurrentPhotoToAlbumPrompt()" class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem; border-radius: 20px;">
+          📁 Klasöre Taşı
+        </button>
+        <button type="button" onclick="deleteCurrentGalleryPhoto()" class="btn-danger" style="padding: 8px 16px; font-size: 0.85rem; border-radius: 20px;">
+          🗑️ Fotoğrafı Sil
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EDIT PERSONAL PROFILE (SINGLE USER) -->
+  <div id="profileEditModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width: 450px;">
+      <div class="modal-header">
+        <h3>👤 Kişisel Profilimi Düzenle</h3>
+        <button type="button" class="close-modal" onclick="closeProfileEditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="profileEditForm" onsubmit="handleProfileEditSubmit(event)">
+          <div class="form-group">
+            <label for="editUserName">İsminiz:</label>
+            <input type="text" id="editUserName" placeholder="Örn: Tuğçe" required>
+          </div>
+
+          <div class="form-group">
+            <label for="editUserBday">Doğum Tarihiniz (Burç Otomatik Bulunur):</label>
+            <input type="date" id="editUserBday" onchange="updateZodiacPreviewInForm()">
+            <small id="zodiacFormPreview" style="color: #ffb703; display: block; margin-top: 4px; font-weight: bold; font-size: 0.8rem;"></small>
+          </div>
+
+          <div class="form-group">
+            <label>Hobileriniz & İlgi Alanlarınız:</label>
+            
+            <!-- Hobby Preset Dropdown -->
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <select id="selectHobbyPreset" onchange="addHobbyFromSelect(event)" style="flex: 1; padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; font-family: inherit; font-size: 0.85rem;">
+                <option value="" disabled selected style="background:#1a0b2e;">-- Hazır Hobilerden Seçin --</option>
+                <option value="📚 Kitap Okumak" style="background:#1a0b2e;">📚 Kitap Okumak</option>
+                <option value="🎵 Müzik Dinlemek" style="background:#1a0b2e;">🎵 Müzik Dinlemek</option>
+                <option value="📸 Fotoğrafçılık" style="background:#1a0b2e;">📸 Fotoğrafçılık</option>
+                <option value="✈️ Seyahat Etmek" style="background:#1a0b2e;">✈️ Seyahat Etmek</option>
+                <option value="🍳 Yemek Pişirmek" style="background:#1a0b2e;">🍳 Yemek Pişirmek</option>
+                <option value="🎨 Resim Yapmak" style="background:#1a0b2e;">🎨 Resim Yapmak</option>
+                <option value="🎮 Oyun Oynamak" style="background:#1a0b2e;">🎮 Oyun Oynamak</option>
+                <option value="🏃 Spor / Yoga" style="background:#1a0b2e;">🏃 Spor / Yoga</option>
+                <option value="☕ Kahve / Çay" style="background:#1a0b2e;">☕ Kahve / Çay</option>
+                <option value="🎬 Film / Dizi" style="background:#1a0b2e;">🎬 Film / Dizi</option>
+              </select>
+            </div>
+
+            <!-- Custom Typed Hobby Input -->
+            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+              <input type="text" id="inputCustomHobby" placeholder="Veya kendiniz yazıp ekleyin..." style="flex: 1;">
+              <button type="button" onclick="addCustomHobbyFromInput()" class="btn-secondary" style="padding: 6px 14px; font-size: 0.82rem; border-radius: 12px; flex-shrink: 0;">
+                ➕ Ekle
+              </button>
+            </div>
+
+            <!-- Active Hobbies List Badges -->
+            <div id="editHobbiesChipsList" style="display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 14px; min-height: 42px; align-items: center;">
+              <!-- Dynamically populated hobby chips -->
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="editUserBio">Biyografiniz / Hakkınızda Metni:</label>
+            <textarea id="editUserBio" rows="3" placeholder="Kendinizden bahseden kısa bir yazı yazın..."></textarea>
+          </div>
+
+          <div class="form-actions" style="margin-top: 16px;">
+            <button type="submit" class="btn-primary btn-full">Profili Kaydet ✨</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ÖZEL AŞK MESAJI PENCERESİ (Memory/Plan Modalı İle Birebir Aynı Çalışan Yapı) -->
+  <div id="loveQuoteModal" class="modal-overlay">
+    <div class="modal-card glass-modal">
+      <div class="modal-header">
+        <h3>❤️ Özel Aşk Mesajımız</h3>
+        <button type="button" class="close-modal" onclick="closeLoveQuoteModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align: center; padding: 24px 12px;">
+        <div style="font-size: 3.2rem; margin-bottom: 8px;" class="glowing-heart-pulse">💖</div>
+        <blockquote id="loveQuoteText" style="font-family: 'Dancing Script', cursive, sans-serif; font-size: 1.65rem; color: #ffffff; line-height: 1.5; font-style: italic; margin: 16px 0; text-shadow: 0 0 12px rgba(255, 133, 162, 0.8);">
+          "Hayatımın anlamı, aldığım her nefeste ve birlikte geçen her saniyemizde seni ilk günkü aşkla seviyorum... İyi ki hayatımdasın bir tanem ❤️✨"
+        </blockquote>
+        <p id="loveQuoteSubtext" style="color: #ffb703; font-weight: bold; font-size: 1.15rem; margin-top: 12px; letter-spacing: 0.5px;">
+          Seçkin & Tuğçe
+        </p>
+      </div>
+      <div class="modal-footer" style="display: flex; gap: 10px; margin-top: 18px;">
+        <button type="button" class="btn-primary glow-btn" onclick="showNextLoveQuote()" style="flex: 1; padding: 12px; font-weight: bold; font-size: 0.95rem;">
+          💌 Başka Bir Mesaj Oku
+        </button>
+        <button type="button" class="btn-secondary" onclick="closeLoveQuoteModal()" style="flex: 1; padding: 12px; font-weight: bold; font-size: 0.95rem;">
+          Kapat
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CUSTOM GLASSMORPHIC MOBILE CONFIRM DIALOG -->
+  <div id="customConfirmModal" class="modal-overlay" style="z-index: 9999;">
+    <div class="modal-card glass-modal" style="max-width: 380px; text-align: center; padding: 24px 20px;">
+      <div style="font-size: 2.8rem; margin-bottom: 8px;" class="glowing-heart-pulse">🗑️</div>
+      <h3 id="confirmModalTitle" style="margin: 0 0 8px 0; font-size: 1.15rem; color: #ffffff;">Silme Onayı</h3>
+      <p id="confirmModalMessage" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin: 0 0 20px 0;">
+        Bu ögeyi silmek istediğinizden emin misiniz?
+      </p>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button type="button" id="btnConfirmModalCancel" class="btn-secondary" style="flex: 1; padding: 10px; border-radius: 16px; font-weight: bold;">
+          Vazgeç
+        </button>
+        <button type="button" id="btnConfirmModalAction" class="btn-danger" style="flex: 1; padding: 10px; border-radius: 16px; font-weight: bold; background: rgba(255, 0, 85, 0.35); border-color: rgba(255, 0, 85, 0.6); color: #fff;">
+          Evet, Sil
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ÖĞÜN EKLE (Add Meal Modal - Enhanced with +/- and Continuous Add) -->
+  <div id="addMealModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width:520px;">
+      <div class="modal-header">
+        <h3 id="addMealModalTitle">🍽️ Öğün Ekle</h3>
+        <button type="button" class="close-modal" onclick="closeAddMealModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Meal Type Selector -->
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Öğün Türü</label>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;" id="mealTypeBtns">
+            <button type="button" class="meal-type-btn active" data-type="sabah" onclick="selectMealType('sabah')">🌅 Sabah</button>
+            <button type="button" class="meal-type-btn" data-type="ogle" onclick="selectMealType('ogle')">☀️ Öğle</button>
+            <button type="button" class="meal-type-btn" data-type="aksam" onclick="selectMealType('aksam')">🌙 Akşam</button>
+            <button type="button" class="meal-type-btn" data-type="ara" onclick="selectMealType('ara')">🍎 Ara Öğün</button>
+          </div>
+        </div>
+
+        <!-- Food Search -->
+        <div style="margin-bottom:12px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Besin Ara veya Manuel Gir</label>
+          <div style="position:relative; margin-top:6px;">
+            <input type="text" id="foodSearchInput" oninput="handleFoodSearch()" placeholder="Örn: süzme peynir, kuru fasulye, elma, menemen..." 
+              style="width:100%; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:0.88rem; outline:none;">
+            <div id="foodSearchDropdown" style="display:none; position:absolute; top:100%; left:0; right:0; background:var(--glass-modal-bg); border:1px solid var(--glass-border); border-radius:14px; z-index:200; max-height:220px; overflow-y:auto; margin-top:4px; backdrop-filter:blur(20px);"></div>
+          </div>
+        </div>
+
+        <!-- Selected Food Row -->
+        <div id="selectedFoodRow" style="display:none; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:14px; padding:12px; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <div>
+              <div id="selectedFoodName" style="font-weight:bold; font-size:0.95rem;"></div>
+              <div id="selectedFoodCalPer100" style="font-size:0.78rem; color:var(--text-sub);"></div>
+            </div>
+
+            <!-- Unit Selector (Gram vs Adet/Porsiyon) & Plus/Minus Controls -->
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+              <div style="display:flex; gap:4px; background:rgba(255,255,255,0.08); padding:3px; border-radius:12px;">
+                <button type="button" id="btnUnitGram" onclick="toggleFoodUnit('g')" class="post-filter-chip active" style="padding:2px 8px; font-size:0.72rem; border-radius:8px;">Gram (g)</button>
+                <button type="button" id="btnUnitPiece" onclick="toggleFoodUnit('pc')" class="post-filter-chip" style="padding:2px 8px; font-size:0.72rem; border-radius:8px;">Adet/Por.</button>
+              </div>
+
+              <div style="display:flex; align-items:center; gap:6px;">
+                <button type="button" onclick="adjustMealQty(-1)" class="btn-secondary" style="width:32px; height:32px; border-radius:10px; padding:0; font-size:1.1rem; font-weight:bold;">-</button>
+                <input type="number" id="inputFoodGrams" value="100" min="1" max="5000" oninput="recalcCalories()"
+                  style="width:70px; padding:6px 8px; border-radius:10px; background:rgba(255,255,255,0.08); border:1px solid var(--glass-border); color:white; font-family:inherit; font-size:0.9rem; text-align:center; outline:none;">
+                <span id="foodUnitLabel" style="font-size:0.8rem; color:var(--text-sub);">g</span>
+                <button type="button" onclick="adjustMealQty(1)" class="btn-secondary" style="width:32px; height:32px; border-radius:10px; padding:0; font-size:1.1rem; font-weight:bold;">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:10px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+            <div>
+              <span style="font-size:0.82rem; color:var(--text-sub);">Kalori: </span>
+              <span id="calculatedCalLabel" style="font-size:1.3rem; font-weight:800; color:var(--primary-pink);">0 kcal</span>
+            </div>
+            <button type="button" onclick="saveMealEntry(false)" class="btn-primary" style="padding:8px 16px; font-size:0.85rem; border-radius:14px; font-weight:bold; display:flex; align-items:center; gap:4px;">
+              ➕ Listeye Ekle
+            </button>
+          </div>
+          <div id="calculatedMacrosRow" style="display:flex; gap:12px; margin-top:6px; font-size:0.75rem; color:var(--text-sub);"></div>
+        </div>
+
+        <!-- Manual Calorie Entry (if food not in database) -->
+        <div id="manualCalRow" style="display:none; margin-bottom:12px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Manuel Kalori Gir (kcal)</label>
+          <div style="display:flex; gap:8px; margin-top:6px;">
+            <input type="number" id="inputManualCalories" min="0" placeholder="Örn: 350"
+              style="flex:1; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:0.88rem; outline:none;">
+            <button type="button" onclick="saveMealEntry(false)" class="btn-primary" style="padding:8px 16px; font-size:0.85rem; border-radius:14px; font-weight:bold;">
+              ➕ Ekle
+            </button>
+          </div>
+        </div>
+
+        <!-- Food Note -->
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Not (isteğe bağlı)</label>
+          <input type="text" id="inputMealNote" placeholder="Örn: Evde yaptım, az tuzlu..."
+            style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:0.88rem; outline:none;">
+        </div>
+
+        <!-- LIVE DRAFT MEAL LIST INSIDE MODAL -->
+        <div class="modal-draft-box">
+          <div class="modal-draft-header">
+            <span>🛒 Eklenen Ürünler</span>
+            <span id="modalDraftTotalCalText" style="color:var(--primary-pink);">0 kcal</span>
+          </div>
+          <div id="modalMealDraftList">
+            <!-- Rendered added items for current meal session -->
+          </div>
+        </div>
+
+        <!-- Modal Finish Button -->
+        <div style="display:flex; justify-content:flex-end;">
+          <button type="button" onclick="closeAddMealModal()" class="btn-primary" style="width:100%; padding:12px; font-size:0.92rem; border-radius:16px; font-weight:bold;">
+            ✅ Tamamla &amp; Kapat
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SPOR & EGZERSİZ EKLE -->
+  <div id="addExerciseModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width:440px;">
+      <div class="modal-header">
+        <h3>🏋️ Spor / Egzersiz Ekle</h3>
+        <button type="button" class="close-modal" onclick="closeAddExerciseModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Egzersiz Türü</label>
+          <select id="selectExerciseType" onchange="recalcBurnedCalories()" style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:0.9rem; outline:none;">
+            <option value="yuruyus">🚶 Tempolu Yürüyüş (3.5 MET)</option>
+            <option value="kosu">🏃 Koşu / Jogging (8.0 MET)</option>
+            <option value="bisiklet">🚴 Bisiklet Sürme (6.0 MET)</option>
+            <option value="yuzme">🏊 Yüzme (7.0 MET)</option>
+            <option value="fitness">🏋️ Ağırlık / Fitness (5.0 MET)</option>
+            <option value="pilates">🧘 Pilates / Yoga (3.0 MET)</option>
+            <option value="futbol">⚽ Futbol / Basketbol (7.0 MET)</option>
+            <option value="ipatlama">🪢 İp Atlama (10.0 MET)</option>
+            <option value="dans">💃 Dans / Zümba (5.5 MET)</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Süre (Dakika)</label>
+          <input type="number" id="inputExerciseMinutes" value="30" min="1" max="600" oninput="recalcBurnedCalories()"
+            style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:1rem; outline:none;">
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:14px; border:1px solid var(--glass-border); margin-bottom:16px; display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-size:0.85rem; color:var(--text-sub);">Tahmini Yakılan Kalori:</span>
+          <span id="calculatedBurnedCalLabel" style="font-size:1.3rem; font-weight:800; color:#10b981;">0 kcal</span>
+        </div>
+
+        <button type="button" onclick="saveExerciseEntry()" class="btn-primary btn-full" style="padding:12px; font-size:0.95rem; border-radius:16px; font-weight:bold;">
+          🔥 Egzersizi Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SU HATIRLATICI SAAT & SIKLIK AYARLARI -->
+  <div id="waterReminderSettingsModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width:440px;">
+      <div class="modal-header">
+        <h3>💧 Su Hatırlatıcı Ayarları</h3>
+        <button type="button" class="close-modal" onclick="closeWaterReminderSettingsModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Hatırlatma Sıklığı</label>
+          <select id="selectWaterFreqMins" style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:0.9rem; outline:none;">
+            <option value="30">⏱️ Her 30 Dakikada Bir</option>
+            <option value="60" selected>⏱️ Her Saat Başı (1 Saat)</option>
+            <option value="120">⏱️ Her 2 Saatte Bir</option>
+            <option value="180">⏱️ Her 3 Saatte Bir</option>
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:14px;">
+          <div>
+            <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Başlangıç Saati</label>
+            <select id="selectWaterStartHour" style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:0.9rem; outline:none;">
+              <option value="6">06:00 (Sabah)</option>
+              <option value="7">07:00 (Sabah)</option>
+              <option value="8">08:00 (Sabah)</option>
+              <option value="9">09:00 (Sabah)</option>
+              <option value="10" selected>10:00 (Kuşluk)</option>
+              <option value="11">11:00 (Öğle Öncesi)</option>
+              <option value="12">12:00 (Öğle)</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Bitiş Saati (Gece)</label>
+            <select id="selectWaterEndHour" style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:0.9rem; outline:none;">
+              <option value="20">20:00 (Akşam)</option>
+              <option value="21">21:00 (Gece)</option>
+              <option value="22">22:00 (Gece)</option>
+              <option value="23">23:00 (Gece)</option>
+              <option value="24" selected>00:00 (Gece Yarısı)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05); padding:10px 14px; border-radius:14px; border:1px solid var(--glass-border); margin-bottom:16px; font-size:0.78rem; color:var(--text-sub);">
+          🌙 Belirlediğiniz gece bitiş saati ile sabah başlangıç saati arasında otomatik sessiz moda geçer ve bildirim göndermez.
+        </div>
+
+        <button type="button" onclick="saveWaterReminderSettings()" class="btn-primary btn-full" style="padding:12px; font-size:0.95rem; border-radius:16px; font-weight:bold;">
+          💾 Ayarları Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: VKİ & BOY/KİLO AYARLARI -->
+  <div id="bmiEditModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width:400px;">
+      <div class="modal-header">
+        <h3>📐 VKİ &amp; Profil Ölçüleri</h3>
+        <button type="button" class="close-modal" onclick="closeBmiEditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Boy (cm)</label>
+          <input type="number" id="inputBmiHeight" placeholder="Örn: 175" min="100" max="230"
+            style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:1rem; outline:none;">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Mevcut Kilo (kg)</label>
+          <input type="number" id="inputBmiWeight" step="0.1" placeholder="Örn: 70" min="30" max="250"
+            style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:1rem; outline:none;">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Günlük Aktivite Seviyesi</label>
+          <select id="selectBmiActivity" style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:0.88rem; outline:none;">
+            <option value="1.2">Hareketsiz / Masa Başı (1.2x Protein)</option>
+            <option value="1.6" selected>Orta Hareketli / Egzersiz (1.6x Protein)</option>
+            <option value="2.0">Çok Hareketli / Sporcu (2.0x Protein)</option>
+          </select>
+        </div>
+        <button type="button" onclick="saveBmiSettings()" class="btn-primary btn-full" style="padding:12px; font-size:0.95rem; border-radius:16px; font-weight:bold;">
+          💾 Ölçüleri Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DİYET AYARLARI (Goals Modal) -->
+  <div id="dietSettingsModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width:420px;">
+      <div class="modal-header">
+        <h3>⚙️ Diyet Hedefleri</h3>
+        <button type="button" class="close-modal" onclick="closeDietSettingsModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Günlük Kalori Hedefi (kcal)</label>
+          <input type="number" id="inputDailyCalTarget" value="2000" min="800" max="6000"
+            style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:1rem; outline:none;">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Günlük Su Hedefi (bardak)</label>
+          <input type="number" id="inputDailyWaterTarget" value="8" min="1" max="20"
+            style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:1rem; outline:none;">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Hedef Kilo (kg) — isteğe bağlı</label>
+          <input type="number" id="inputTargetWeight" step="0.1" placeholder="Örn: 65.0"
+            style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:1rem; outline:none;">
+        </div>
+        <button type="button" onclick="saveDietSettings()" class="btn-primary btn-full" style="padding:12px; font-size:0.95rem; border-radius:16px; font-weight:bold;">
+          💾 Hedefleri Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KİLO GİRİŞİ (Weight Modal) -->
+  <div id="addWeightModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width:360px;">
+      <div class="modal-header">
+        <h3>⚖️ Kilo Gir</h3>
+        <button type="button" class="close-modal" onclick="closeAddWeightModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:14px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Kilo (kg)</label>
+          <input type="number" id="inputWeightKg" step="0.1" min="20" max="300" placeholder="Örn: 68.5"
+            style="width:100%; margin-top:6px; padding:12px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:1.1rem; text-align:center; outline:none;">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:0.82rem; color:var(--text-sub); font-weight:bold;">Tarih</label>
+          <input type="date" id="inputWeightDate"
+            style="width:100%; margin-top:6px; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:white; font-family:inherit; font-size:0.9rem; outline:none;">
+        </div>
+        <button type="button" onclick="saveWeightEntry()" class="btn-primary btn-full" style="padding:12px; font-size:0.95rem; border-radius:16px; font-weight:bold;">
+          ✅ Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: FOTOĞRAFI KLASÖRE TAŞI (MOVE PHOTO TO ALBUM DIALOG) -->
+  <div id="movePhotoModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width:400px;">
+      <div class="modal-header">
+        <h3>📁 Klasöre Taşın</h3>
+        <button type="button" class="close-modal" onclick="closeMovePhotoModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem; color:var(--text-sub); margin-bottom:12px;">Fotoğrafın taşınmasını istediğiniz klasörü seçin:</p>
+        <div id="movePhotoAlbumsList" style="display:flex; flex-direction:column; gap:8px; max-height:240px; overflow-y:auto; margin-bottom:16px;">
+          <!-- Dynamically populated album choices -->
+        </div>
+        <button type="button" onclick="openNewAlbumModal(); closeMovePhotoModal();" class="btn-secondary btn-full" style="padding:10px; font-size:0.85rem; border-radius:14px;">
+          ➕ Yeni Klasör Oluştur
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: YUVARLAK PROFİL FOTOĞRAFI KIRPMA / AYARLAMA -->
+  <div id="cropAvatarModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width:440px; text-align:center;">
+      <div class="modal-header">
+        <h3 id="cropAvatarTitle">👤 Profil Fotoğrafını Ayarla</h3>
+        <button type="button" class="close-modal" onclick="closeCropAvatarModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:16px;">
+        <button type="button" onclick="triggerModalPhotoPick('avatar')" class="btn-secondary glow-btn" style="padding:10px 18px; border-radius:14px; font-weight:bold; font-size:0.88rem; width:100%; margin-bottom:12px;">
+          📷 Galeriden Fotoğraf Seç / Yükle
+        </button>
+
+        <div style="background:rgba(255,255,255,0.06); padding:8px 12px; border-radius:14px; margin-bottom:12px; font-size:0.8rem; color:var(--accent-cyan); font-weight:bold; display:inline-flex; align-items:center; gap:6px;">
+          <span>👈👉 Görseli basılı tutup dilediğiniz yöne sürükleyin</span>
+        </div>
+
+        <!-- Preview Box with Circular Overlay -->
+        <div class="cropper-box-wrap" style="position:relative; width:220px; height:220px; margin:0 auto 16px auto; overflow:hidden; border-radius:50%; border:3px solid var(--primary-pink); box-shadow:0 0 25px rgba(255,42,109,0.4); background:#000; touch-action:none;">
+          <canvas id="cropAvatarCanvas" width="300" height="300" style="width:100%; height:100%; cursor:grab;"></canvas>
+          <div style="position:absolute; inset:0; border-radius:50%; pointer-events:none; border:2px dashed rgba(255,255,255,0.4);"></div>
+        </div>
+
+        <!-- Zoom Control Slider Only -->
+        <div style="background:rgba(255,255,255,0.04); padding:12px 16px; border-radius:16px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:#fff; font-weight:bold; margin-bottom:8px;">
+            <span>🔍 Yakınlaştır (Büyüt / Küçült)</span>
+            <span id="valAvatarScale" style="color:var(--primary-pink); font-size:0.9rem;">1.0x</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button type="button" onclick="adjustAvatarZoom(-0.1)" class="btn-secondary" style="padding:4px 10px; border-radius:10px; font-weight:bold;">➖</button>
+            <input type="range" id="rangeAvatarScale" min="0.5" max="3.5" step="0.05" value="1.0" oninput="updateAvatarCropper()" style="flex:1;">
+            <button type="button" onclick="adjustAvatarZoom(0.1)" class="btn-secondary" style="padding:4px 10px; border-radius:10px; font-weight:bold;">➕</button>
+          </div>
+        </div>
+
+        <button type="button" onclick="saveCroppedAvatar()" class="btn-primary btn-full" style="padding:12px; font-size:0.95rem; border-radius:16px; font-weight:bold;">
+          ✅ Yuvarlak Çerçeveye Kırp & Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KAPAK FOTOĞRAFI (BANNER) KIRPMA / AYARLAMA -->
+  <div id="cropBannerModal" class="modal-overlay">
+    <div class="modal-card glass-modal" style="max-width:480px; text-align:center;">
+      <div class="modal-header">
+        <h3>🖼️ Kapak Fotoğrafını (Banner) Ayarla</h3>
+        <button type="button" class="close-modal" onclick="closeCropBannerModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:16px;">
+        <button type="button" onclick="triggerModalPhotoPick('banner')" class="btn-secondary glow-btn" style="padding:10px 18px; border-radius:14px; font-weight:bold; font-size:0.88rem; width:100%; margin-bottom:12px;">
+          🖼️ Galeriden Kapak Resmi Seç / Yükle
+        </button>
+
+        <div style="background:rgba(255,255,255,0.06); padding:8px 12px; border-radius:14px; margin-bottom:12px; font-size:0.8rem; color:var(--accent-cyan); font-weight:bold; display:inline-flex; align-items:center; gap:6px;">
+          <span>👈👉 Kapak resmini basılı tutup kenarlara doğru sürükleyin</span>
+        </div>
+
+        <!-- Banner Preview Box -->
+        <div class="cropper-banner-wrap" style="position:relative; width:100%; height:160px; margin:0 auto 16px auto; overflow:hidden; border-radius:20px; border:2px solid var(--accent-cyan); box-shadow:0 0 20px rgba(5,217,232,0.3); background:#000; touch-action:none;">
+          <canvas id="cropBannerCanvas" width="800" height="350" style="width:100%; height:100%; cursor:grab;"></canvas>
+          <div style="position:absolute; inset:0; pointer-events:none; border:2px dashed rgba(255,255,255,0.4); border-radius:20px;"></div>
+        </div>
+
+        <!-- Zoom Control Slider Only -->
+        <div style="background:rgba(255,255,255,0.04); padding:12px 16px; border-radius:16px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:#fff; font-weight:bold; margin-bottom:8px;">
+            <span>🔍 Yakınlaştır (Büyüt / Küçült)</span>
+            <span id="valBannerScale" style="color:var(--accent-cyan); font-size:0.9rem;">1.0x</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button type="button" onclick="adjustBannerZoom(-0.1)" class="btn-secondary" style="padding:4px 10px; border-radius:10px; font-weight:bold;">➖</button>
+            <input type="range" id="rangeBannerScale" min="0.5" max="3.5" step="0.05" value="1.0" oninput="updateBannerCropper()" style="flex:1;">
+            <button type="button" onclick="adjustBannerZoom(0.1)" class="btn-secondary" style="padding:4px 10px; border-radius:10px; font-weight:bold;">➕</button>
+          </div>
+        </div>
+
+        <button type="button" onclick="saveCroppedBanner()" class="btn-primary btn-full" style="padding:12px; font-size:0.95rem; border-radius:16px; font-weight:bold;">
+          🖼️ Kapak Fotoğrafını Kırp & Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

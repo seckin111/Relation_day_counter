@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aşk Sayacı - Mobil Uygulamayı Yükle & Aç</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0c20 0%, #1a0b2e 50%, #2b0826 100%);
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 28px;
+      padding: 36px 24px;
+      max-width: 440px;
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 30px rgba(255,42,109,0.3);
+    }
+    .heart-icon { font-size: 70px; margin-bottom: 12px; display: inline-block; animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
+    h1 { font-size: 1.8rem; margin-bottom: 10px; color: #fff; text-shadow: 0 0 12px rgba(255,42,109,0.6); }
+    p { font-size: 0.95rem; color: rgba(255,255,255,0.8); line-height: 1.5; margin-bottom: 26px; }
+    .btn-main {
+      background: linear-gradient(135deg, #ff2a6d 0%, #ff0055 100%);
+      color: white;
+      text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: bold;
+      padding: 16px 24px;
+      border-radius: 50px;
+      display: block;
+      box-shadow: 0 8px 25px rgba(255,42,109,0.5);
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+    .btn-main:hover { transform: translateY(-2deg); box-shadow: 0 12px 30px rgba(255,42,109,0.7); }
+    .guide-box {
+      margin-top: 24px;
+      text-align: left;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 18px;
+      border-radius: 18px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .guide-box strong { color: #ffb703; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="heart-icon">💖</span>
+    <h1>Bizim Aşk Hikayemiz</h1>
+    <p>Mobil uygulamanız hazır! Aşağıdaki butona dokunarak uygulamayı açabilir ve saniyeler içinde telefonunuzun ana ekranına yükleyebilirsiniz.</p>
+
+    <button class="btn-main" onclick="window.location.href='index.html'">📱 UYGULAMAYI AÇ & YÜKLE ❤️</button>
+
+    <div class="guide-box">
+      <strong>📲 Telefona Nasıl Yüklenir?</strong><br>
+      • <strong>Android:</strong> Uygulama açılınca üstteki <i>"Telefona Yükle"</i> butonuna dokunun.<br>
+      • <strong>iPhone (Safari):</strong> Safari'nin altındaki <strong>Paylaş</strong> simgesine dokunup <strong>"Ana Ekrana Ekle"</strong> seçeneğini seçin.
+    </div>
+  </div>
+</body>
+</html>

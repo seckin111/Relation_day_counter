@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Tarih uygulaması">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Bizim_Ask_Hikayemiz_Mobil_Uygulama.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Bizim_Ask_Hikayemiz_Clean_App.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,162 @@
+[
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-mdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_bg_rose.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_bg_rose.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-hdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-xxhdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_countdown_bg.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_countdown_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\layout_custom_notification.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\layout\\custom_notification.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_bg.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_bg_blue.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_bg_blue.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_ic_transparent.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\ic_transparent.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_heart_frame.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_heart_frame.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\layout_widget_layout.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\layout\\widget_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_avatar_circle.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_avatar_circle.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_tile_bg_pink.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_tile_bg_pink.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-xhdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_bg_gold.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_bg_gold.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-mdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_tile_bg_blue.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_tile_bg_blue.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_bg_emerald.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_bg_emerald.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-xxxhdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_tile_bg_emerald.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_tile_bg_emerald.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_tile_bg_rose.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_tile_bg_rose.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "com.lovecounter.app-merged_res-32:/layout_widget_layout.xml.flat",
+        "source": "com.lovecounter.app-main-34:/layout/widget_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_bg_pink.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_bg_pink.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_tile_bg_gold.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_tile_bg_gold.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_heart_icon.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_heart_icon.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\xml_widget_info.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\xml\\widget_info.xml"
+    },
+    {
+        "merged": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-merged_res-32:\\drawable_widget_tile_bg.xml.flat",
+        "source": "C:\\Users\\USER\\.gradle\\daemon\\8.2\\com.lovecounter.app-main-34:\\drawable\\widget_tile_bg.xml"
+    }
+]

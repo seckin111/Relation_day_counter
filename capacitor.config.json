@@ -1,0 +1,6 @@
+{
+  "appId": "com.lovecounter.app",
+  "appName": "Aşk Sayacı",
+  "webDir": ".",
+  "bundledWebRuntime": false
+}

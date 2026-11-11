@@ -1,0 +1,35 @@
+{
+  "name": "Bizim Aşk Hikayemiz - Aşk Sayacı",
+  "short_name": "Aşk Sayacı",
+  "description": "İlişki başlama tarihinden itibaren gün ay yıl saat dakika canlı sayacı, fotoğraflı anı takvimi, gelecek planları ve kilit ekranı widget'ı.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#0f0c20",
+  "theme_color": "#ff2a6d",
+  "orientation": "portrait",
+  "scope": "./",
+  "categories": ["lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23ff2a6d'/><path d='M256 448l-30.8-28.08C115.2 320 48 259.2 48 184 48 122.4 96.4 74 158 74c34.8 0 68.2 16.2 90 41.8C270.8 90.2 304.2 74 339 74c61.6 0 110 48.4 110 110 0 75.2-67.2 136-177.2 236.08L256 448z' fill='white'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kilit Ekranı Widget",
+      "short_name": "Widget",
+      "description": "Kilit ekranı widget görünümünü aç",
+      "url": "./index.html?widget=true"
+    },
+    {
+      "name": "Gelecek Planları",
+      "short_name": "Planlar",
+      "description": "Gelecek planları takvimini aç",
+      "url": "./index.html?tab=future"
+    }
+  ]
+}

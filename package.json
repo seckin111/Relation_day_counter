@@ -1,0 +1,12 @@
+{
+  "name": "bizim-ask-hikayemiz",
+  "version": "1.0.0",
+  "description": "Aşk Sayacı, Anı Takvimi ve Kilit Ekranı Widget Mobil Uygulaması",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": ["pwa", "mobile", "love-counter", "widget"],
+  "author": "Antigravity",
+  "license": "MIT"
+}

@@ -1,0 +1,9 @@
+- [x] Simge kaynakları için gerekli dosyaları oluştur
+    - [x] `res/values/colors.xml` oluştur (Arka plan rengi için)
+    - [x] `res/drawable/ic_launcher_background.xml` oluştur
+    - [x] `res/drawable/ic_launcher_foreground.xml` oluştur (Geçici kalp simgesi)
+    - [x] `res/mipmap-anydpi-v26/ic_launcher.xml` oluştur
+    - [x] `res/mipmap-anydpi-v26/ic_launcher_round.xml` oluştur
+- [x] `AndroidManifest.xml` dosyasını güncelle
+- [x] Projeyi derle ve doğrula
+- [x] Kullanıcıya görseli nasıl ekleyeceği bilgisini ver

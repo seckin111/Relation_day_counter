@@ -1,0 +1,4 @@
+com.lovecounter.app.test.app-androidTest-0 C:\Users\USER\Documents\Tarih uygulaması\android\app\build\generated\res\resValues\androidTest\debug
+com.lovecounter.app.test.app-mergeDebugAndroidTestResources-1 C:\Users\USER\Documents\Tarih uygulaması\android\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.lovecounter.app.test.app-mergeDebugAndroidTestResources-2 C:\Users\USER\Documents\Tarih uygulaması\android\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.lovecounter.app.test.app-merged_res-3 C:\Users\USER\Documents\Tarih uygulaması\android\app\build\intermediates\merged_res\debugAndroidTest

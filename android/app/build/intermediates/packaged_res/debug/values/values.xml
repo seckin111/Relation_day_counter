@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#FF2A6D</color>
+    <string name="app_name">S❤︎T</string>
+    <string name="widget_description">Çift Widget - Birlikte Gün Sayacı</string>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#FF2A6D</item>
+        <item name="colorPrimaryDark">#0F0C20</item>
+        <item name="colorAccent">#FFB703</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+</resources>
